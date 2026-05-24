@@ -1,17 +1,16 @@
-import React, { useEffect } from "react";
 import { BookOpen, Search, Headphones, Zap } from "lucide-react";
 import { useNotification } from "../../../Notification/notificationContex";
 
 // Hooks
 import { useGestionLivres }       from "./logique/useGestionLivre";
-import { useGestionUtilisateurs } from "./logique/useGestionUtilisateur";
+
 import { useGestionModals }       from "./logique/useGestionModal";
 
 // Composants
 import CarrouselLivres      from "./composant/carrousolLivre";
 import PanneauGestionLivre  from "./composant/panneauGestionLivre";
 import PanneauStatistiques  from "./composant/panneauStatistique";
-import SectionUtilisateurs  from "./composant/sectionUtilisateur";
+
 import {
   EcranChargement,
   EcranVide,
@@ -41,10 +40,7 @@ const ListeLivres = () => {
     livreCourant, livresVisibles, statistiques,
   } = useGestionLivres();
 
-  const {
-    utilisateurs, utilisateursAffiches, afficherTous,
-    chargementUtilisateurs, chargerUtilisateurs, basculerAffichage,
-  } = useGestionUtilisateurs();
+  
 
   const {
     modalAjoutOuverte, modalModifOuverte, modalSupprOuverte, modalAudioOuverte,
@@ -52,11 +48,7 @@ const ListeLivres = () => {
     ouvrirAudioDepuisPanel, fermerTout,
   } = useGestionModals();
 
-  // ── Chargement initial ────────────────────────────────
-  useEffect(() => {
-    chargerLivres();
-    chargerUtilisateurs();
-  }, [chargerLivres, chargerUtilisateurs]);
+
 
   // ── Callbacks succès modals ───────────────────────────
   const gererSuccesModif = () => {
@@ -185,14 +177,6 @@ const ListeLivres = () => {
           </div>
         )}
 
-        {/* ── Section utilisateurs ── */}
-        <SectionUtilisateurs
-          utilisateurs={utilisateurs}
-          utilisateursAffiches={utilisateursAffiches}
-          afficherTous={afficherTous}
-          chargement={chargementUtilisateurs}
-          onBasculerAffichage={basculerAffichage}
-        />
       </div>
 
       {/* ════ BOUTONS FLOTTANTS ════ */}

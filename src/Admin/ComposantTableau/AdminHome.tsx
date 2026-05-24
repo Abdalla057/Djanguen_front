@@ -1,6 +1,6 @@
 import React from 'react';
-import MainContent from './panneauDroite/index';
-import RightPanel from './panneauGauche/index';
+import MainContent from './ComposantAccueil/index';
+
 export default function AdminHome() {
   return (
     <div
@@ -53,18 +53,6 @@ export default function AdminHome() {
         <MainContent />
       </div>
 
-      {/* Right Panel */}
-      <div
-        className="w-80 rounded-2xl p-6 relative z-10 flex-shrink-0"
-        style={{
-          background: 'rgba(255,255,255,0.04)',
-          backdropFilter: 'blur(16px)',
-          border: '1px solid rgba(194,0,116,0.3)',
-          boxShadow: '0 8px 32px rgba(194,0,116,0.1)',
-        }}
-      >
-        <RightPanel />
-      </div>
     </div>
   );
 }
