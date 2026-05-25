@@ -1,10 +1,9 @@
-import { BookOpen, Search, Headphones, Zap } from "lucide-react";
+import { BookOpen, Search, Headphones, Plus, LayoutGrid } from "lucide-react";
 import { useNotification } from "../../../Notification/notificationContex";
 
 // Hooks
-import { useGestionLivres }       from "./logique/useGestionLivre";
-
-import { useGestionModals }       from "./logique/useGestionModal";
+import { useGestionLivres }  from "./logique/useGestionLivre";
+import { useGestionModals }   from "./logique/useGestionModal";
 
 // Composants
 import CarrouselLivres      from "./composant/carrousolLivre";
@@ -23,6 +22,7 @@ import AjouterLivre   from "../../../Admin/ComposantLivre/AjouterLivre";
 import ModifierLivre  from "../ModifierLivre/modifierlivre";
 import SupprimerLivre from "../SupprimerLivre/supprimerlivre";
 import UploaderAudio  from "../../../Admin/ComposantLivre/AjouterAudio/Index";
+import React from "react";
 
 /* ================================================================
    ORCHESTRATEUR — ListeLivres
@@ -40,15 +40,11 @@ const ListeLivres = () => {
     livreCourant, livresVisibles, statistiques,
   } = useGestionLivres();
 
-  
-
   const {
     modalAjoutOuverte, modalModifOuverte, modalSupprOuverte, modalAudioOuverte,
     presetAudio, ouvrirAjout, fermerAjout, ouvrirModif, ouvrirSuppr, ouvrirAudio,
     ouvrirAudioDepuisPanel, fermerTout,
   } = useGestionModals();
-
-
 
   // ── Callbacks succès modals ───────────────────────────
   const gererSuccesModif = () => {
@@ -70,81 +66,127 @@ const ListeLivres = () => {
   };
 
   // ── États alternatifs ─────────────────────────────────
-  // ✅ Après — le modal est rendu avec EcranVide
-    if (chargement.livres) return <EcranChargement />;
+  if (chargement.livres) return <EcranChargement />;
 
-       if (livres.length === 0) return (
-      <>
-         <EcranVide onAjouter={ouvrirAjout} />
-         <AjouterLivre
-          isOpen={modalAjoutOuverte}
-          onClose={fermerAjout}
-          onSuccess={chargerLivres}
-        />
-     </>
-   );
+  if (livres.length === 0) return (
+    <>
+      <EcranVide onAjouter={ouvrirAjout} />
+      <AjouterLivre
+        isOpen={modalAjoutOuverte}
+        onClose={fermerAjout}
+        onSuccess={chargerLivres}
+      />
+    </>
+  );
 
+  // ── Rendu principal ───────────────────────────────────
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 py-10 px-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 flex flex-col">
 
-      {/* Lumières d'ambiance */}
-      <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-indigo-600/6 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[600px] h-[600px] bg-purple-600/6 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 pointer-events-none" />
+      {/* ════ TOPBAR ════ */}
+      <header className="sticky top-0 z-30 bg-white dark:bg-slate-900 border-b border-gray-100 dark:border-slate-800">
+        <div className="max-w-screen-xl mx-auto px-6 h-16 flex items-center gap-4">
 
-      <div className="max-w-7xl mx-auto relative z-10">
-
-        {/* ════ EN-TÊTE ════ */}
-        <div className="mb-10">
-          {erreurs.livres && <AlerteErreur message={erreurs.livres} />}
-
-          <div className="flex items-center gap-4 mb-8">
-            <div className="p-3.5 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl shadow-2xl shadow-indigo-500/20">
-              <BookOpen className="w-7 h-7 text-white" />
+          {/* Logo */}
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center">
+              <BookOpen className="w-4 h-4 text-white" />
             </div>
-            <div>
-              <h1 className="text-4xl font-extrabold text-white tracking-tight">Bibliothèque</h1>
-              <p className="text-slate-400 text-sm mt-0.5">
-                {livresFiltres.length} livre{livresFiltres.length > 1 ? "s" : ""} disponible{livresFiltres.length > 1 ? "s" : ""}
+            <div className="hidden sm:block">
+              <p className="text-sm font-medium text-gray-900 dark:text-white leading-none">
+                Bibliothèque
+              </p>
+              <p className="text-xs text-gray-400 dark:text-slate-500 mt-0.5">
+                {livresFiltres.length} livre{livresFiltres.length > 1 ? "s" : ""}
               </p>
             </div>
           </div>
 
+          {/* Divider */}
+          <div className="w-px h-5 bg-gray-200 dark:bg-slate-700 shrink-0" />
+
           {/* Barre de recherche */}
-          <div className="relative max-w-xl">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-indigo-400 pointer-events-none" />
+          <div className="flex-1 max-w-md relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-400 pointer-events-none" />
             <input
               type="text"
               placeholder="Rechercher par titre ou auteur…"
               value={recherche}
               onChange={(e) => setRecherche(e.target.value)}
-              className="w-full pl-12 pr-10 py-3.5 bg-slate-800/50 backdrop-blur-xl rounded-xl border border-slate-700/50 focus:border-indigo-500/50 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all duration-300 text-white placeholder-slate-500 text-sm"
+              className="w-full pl-9 pr-8 py-2 text-sm bg-gray-100 dark:bg-slate-800 border border-transparent focus:border-indigo-400 focus:bg-white dark:focus:bg-slate-900 rounded-lg outline-none transition-all duration-200 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-slate-500"
             />
             {recherche && (
               <button
                 onClick={() => setRecherche("")}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors text-lg leading-none"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-white transition-colors text-sm leading-none"
               >
                 ✕
               </button>
             )}
           </div>
 
-          {recherche && (
-            <p className="mt-3 text-slate-400 text-sm">
-              {livresFiltres.length} résultat{livresFiltres.length > 1 ? "s" : ""} pour "
-              <span className="text-indigo-300 font-medium">{recherche}</span>"
-            </p>
-          )}
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Actions */}
+          <div className="flex items-center gap-2 shrink-0">
+            <button
+              onClick={ouvrirAudio}
+              title="Ajouter un audio"
+              className="flex items-center gap-2 h-8 px-3 rounded-lg text-xs font-medium text-gray-600 dark:text-slate-400 bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 border border-transparent hover:border-gray-200 dark:hover:border-slate-600 transition-all duration-150"
+            >
+              <Headphones className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Audio</span>
+            </button>
+
+            <button
+              onClick={ouvrirAjout}
+              className="flex items-center gap-2 h-8 px-3 rounded-lg text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 transition-colors duration-150"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span className="hidden sm:inline">Nouveau livre</span>
+            </button>
+          </div>
+
         </div>
 
-        {/* ════ CONTENU ════ */}
+        {/* Bande d'erreur sous le header */}
+        {erreurs.livres && (
+          <div className="border-t border-red-100 dark:border-red-900/30">
+            <div className="max-w-screen-xl mx-auto px-6">
+              <AlerteErreur message={erreurs.livres} />
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* ════ BODY ════ */}
+      <div className="flex-1 max-w-screen-xl mx-auto w-full px-6 py-8">
+
+        {/* Résultat recherche */}
+        {recherche && (
+          <p className="text-xs text-gray-500 dark:text-slate-400 mb-6">
+            {livresFiltres.length} résultat{livresFiltres.length > 1 ? "s" : ""} pour{" "}
+            <span className="text-indigo-600 dark:text-indigo-400 font-medium">"{recherche}"</span>
+          </p>
+        )}
+
         {livresFiltres.length === 0 ? (
           <EcranAucunResultat recherche={recherche} />
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
-            {/* ── Carrousel 3D ── */}
+            {/* ── Carrousel — 2/3 gauche ── */}
             <div className="lg:col-span-2">
+
+              {/* Titre section */}
+              <div className="flex items-center gap-2 mb-4">
+                <LayoutGrid className="w-3.5 h-3.5 text-gray-400" />
+                <span className="text-xs font-medium text-gray-400 dark:text-slate-500 uppercase tracking-wider">
+                  Tous les livres
+                </span>
+              </div>
+
               <CarrouselLivres
                 livresVisibles={livresVisibles}
                 livreCourant={livreCourant}
@@ -157,14 +199,27 @@ const ListeLivres = () => {
               />
             </div>
 
-            {/* ── Colonne droite ── */}
-            <div className="flex flex-col gap-5">
+            {/* ── Colonne droite — 1/3 ── */}
+            <div className="flex flex-col gap-4">
+
               <PanneauStatistiques
                 totalLivres={statistiques.totalLivres}
                 nouveautes={statistiques.nouveautes}
                 enLecture={statistiques.enLecture}
               />
-              <div className="flex-1 overflow-y-auto" style={{ maxHeight: "70vh", scrollbarWidth: "thin" }}>
+
+              {/* Séparateur */}
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-gray-400 dark:text-slate-500 uppercase tracking-wider shrink-0">
+                  Sélection
+                </span>
+                <div className="flex-1 h-px bg-gray-100 dark:bg-slate-800" />
+              </div>
+
+              <div
+                className="overflow-y-auto rounded-xl"
+                style={{ maxHeight: "70vh", scrollbarWidth: "thin" }}
+              >
                 <PanneauGestionLivre
                   livreCourant={livreCourant}
                   livreid={livreCourant?.id ?? 0}
@@ -173,27 +228,11 @@ const ListeLivres = () => {
                   onAudioDepuisPanel={ouvrirAudioDepuisPanel}
                 />
               </div>
+
             </div>
           </div>
         )}
-
       </div>
-
-      {/* ════ BOUTONS FLOTTANTS ════ */}
-      <button
-        onClick={ouvrirAudio}
-        className="fixed bottom-8 right-8 w-14 h-14 bg-gradient-to-br from-purple-600 to-indigo-600 text-white rounded-full shadow-xl hover:shadow-2xl hover:shadow-purple-500/40 transition-all duration-300 hover:scale-110 z-50 flex items-center justify-center"
-        title="Ajouter un audio"
-      >
-        <Headphones className="w-6 h-6" />
-      </button>
-      <button
-        onClick={ouvrirAjout}
-        className="fixed bottom-28 right-8 w-12 h-12 bg-gradient-to-br from-emerald-600 to-teal-600 text-white rounded-full shadow-xl hover:shadow-2xl hover:shadow-emerald-500/40 transition-all duration-300 hover:scale-110 z-50 flex items-center justify-center"
-        title="Ajouter un livre"
-      >
-        <Zap className="w-5 h-5" />
-      </button>
 
       {/* ════ MODALS ════ */}
       <AjouterLivre
@@ -229,6 +268,7 @@ const ListeLivres = () => {
         defaultPageDebut={presetAudio?.pageDebut}
         defaultPageFin={presetAudio?.pageFin}
       />
+
     </div>
   );
 };

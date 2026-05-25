@@ -6,7 +6,7 @@ import type { Livre } from "../type/listeLivreType";
 
 interface CarrouselLivresProps {
   livresVisibles: { livre: Livre; position: number; idx: number }[];
-  livreCourant:   Livre | undefined;
+  livreCourant:   Livre | null;
   indexActuel:    number;
   totalLivres:    number;
   allerVers:      (idx: number) => void;

@@ -27,7 +27,7 @@ export interface EtatApplication {
 }
 
 export interface EtatChargement {
-  livres:      boolean;
+  livres: boolean;
   utilisateurs:boolean;
 }
 

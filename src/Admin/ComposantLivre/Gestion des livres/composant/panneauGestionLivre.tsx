@@ -5,7 +5,7 @@ import AudioStatusPanel from "../../AudioStatusPanel";
 import type { Livre } from "../type/listeLivreType";
 
 interface PanneauGestionLivreProps {
-  livreCourant?: Livre;
+  livreCourant: Livre | null;
   onOuvrirModif: () => void;
   onOuvrirSuppr: () => void;
   livreid: number;
