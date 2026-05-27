@@ -12,7 +12,13 @@ export interface LivreApi {
   coverUrl?: string;
   pdfUrl?: string;
   createdAt?: string;
+  audios?: { id: number }[]; 
+  cover?: string;
 }
+
+
+
+
 
 /** POST /admin/livre  |  PATCH /admin/livre/:id — multipart/form-data */
 export interface CreateLivreDto {

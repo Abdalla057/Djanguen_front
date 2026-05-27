@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { useAudios } from "../logique/useGestion";
 import type { LivreApi } from "../type/GestionType";
+import { API_URL } from "../constante/constante";
 
 export interface LigneLivreProps {
   livre: LivreApi;
@@ -16,6 +17,7 @@ export interface LigneLivreProps {
 const LigneLivre = ({ livre, onModifier, onSupprimer, onUploadAudio }: LigneLivreProps) => {
   const [open, setOpen] = useState(false);
   const { allAudios: audios, loading: audiosLoading } = useAudios(open ? livre.id : null);
+  console.log("coverUrl :", API_URL, "/", livre.cover);
 
   return (
     <>
@@ -24,9 +26,9 @@ const LigneLivre = ({ livre, onModifier, onSupprimer, onUploadAudio }: LigneLivr
         {/* Cover + Titre */}
         <td className="px-5 py-3.5">
           <div className="flex items-center gap-3">
-            {livre.coverUrl ? (
+            {livre.cover ? (
               <img
-                src={livre.coverUrl}
+                src={`${API_URL}/uploads/images/${livre.cover}`}
                 alt={livre.titre}
                 className="w-8 h-10 rounded-lg object-cover flex-shrink-0 border border-slate-100 shadow-sm"
               />
