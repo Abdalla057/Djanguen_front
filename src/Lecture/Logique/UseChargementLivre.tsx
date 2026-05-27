@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { URL_API } from "../constants/couleurs";
-import type { Livre, Page } from "../types/livreTypes";
+import { URL_API } from "../constante/constante";
+import type { Livre, Page } from "../type/LivreType";
 
 export const useChargementLivre = (id: string | undefined) => {
   const [livre, setLivre] = useState<Livre | null>(null);

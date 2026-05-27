@@ -1,5 +1,5 @@
 import React from "react";
-import { COULEURS } from "../constants/couleurs";
+import { COULEURS } from "../constante/constante";
 
 interface NavigationPagesProps {
   indexCourant: number;

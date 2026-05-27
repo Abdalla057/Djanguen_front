@@ -1,5 +1,5 @@
-import { COULEURS, URL_API } from "../Constants/Couleurs";
-import type { Page } from "../../Lecture/Types/LivreTypes";
+import { COULEURS, URL_API } from "../constante/constante";
+import type { Page } from "../type/LivreType";
 import React from "react";
 
 interface GrilleMiniaturesProps {

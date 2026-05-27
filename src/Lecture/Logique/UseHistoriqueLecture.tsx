@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback } from "react";
-import { URL_API } from "../constants/couleurs";
-import type { Livre } from "../types/livreTypes";
+import { URL_API } from "../constante/constante";
+import type { Livre } from "../type/LivreType";
 
 export const useHistoriqueLecture = (
   id: string | undefined,

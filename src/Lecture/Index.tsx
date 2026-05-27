@@ -14,7 +14,7 @@ import NavigationPages  from "@/Lecture/Composant/NavigationPage";
 import GrilleMiniatures from "@/Lecture/Composant/GrilleMiniature";
 
 // Constantes
-import { COULEURS } from "@/Lecture/Constants/couleurs";
+import { COULEURS } from "@/Lecture/constante/constante";
 
 /* ================================================================
    ORCHESTRATEUR — PagesLivre
@@ -31,7 +31,7 @@ const PagesLivre = () => {
   const { mettreAJourHistorique }     = useHistoriqueLecture(id, profile?.id, livre);
   const { indexCourant, imageChargee, setImageChargee, allerVers, pageSuivante, pagePrecedente } =
     useNavigationPages(pages, mettreAJourHistorique);
-  const { urlAudio }                  = useChargementAudio(id, pages, indexCourant);
+  const { fichierAudio }                  = useChargementAudio(id, pages, indexCourant);
 
   // ── Écran de chargement ───────────────────────────────
   if (!livre || pages.length === 0) {
@@ -151,9 +151,9 @@ const PagesLivre = () => {
         <aside className="w-full lg:w-72 flex flex-col gap-5 mt-6 lg:mt-0 shrink-0">
 
           {/* Lecteur audio ou message d'absence */}
-          {urlAudio ? (
+          {fichierAudio ? (
             <div className="fade-in">
-              <LecteurAudio key={urlAudio} src={urlAudio} />
+              <LecteurAudio key={fichierAudio} src={fichierAudio} />
             </div>
           ) : (
             <div

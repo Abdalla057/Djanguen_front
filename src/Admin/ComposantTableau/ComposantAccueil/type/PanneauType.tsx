@@ -24,3 +24,4 @@ export interface UserView {
   statut: "ACTIF" | "INACTIF";
   
 }
+

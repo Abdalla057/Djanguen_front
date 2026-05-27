@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { COULEURS } from "@/Lecture/Constants/Couleurs";
+import { COULEURS } from "../constante/constante";
 
 interface LecteurAudioProps {
   src: string;
@@ -57,6 +57,7 @@ const LecteurAudio = ({ src }: LecteurAudioProps) => {
   };
 
   const pourcentage = duree ? (position / duree) * 100 : 0;
+  console.log("AUDIO SRC =", src);
 
   return (
     <div

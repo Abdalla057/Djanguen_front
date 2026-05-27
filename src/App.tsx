@@ -10,7 +10,7 @@ import ListeModifier from "./Admin/ComposantLivre/ListeModifier/listemodifier";
 import AjouterAudio from "./Admin/ComposantLivre/AjouterAudio/Index";
 import AdminHome from "./Admin/ComposantTableau/AdminHome";
 import Bibliothèque from "./Admin/Bibliothéque/index";
-import Listelivres from "./Admin/ComposantLivre/Gestion des livres/Index";
+import Listelivres from "./Admin/ComposantLivre/gestionLivre/index";
 
 // Site / Utilisateur
 import Site from "./site/principal";       // ← point d'entrée principal du site

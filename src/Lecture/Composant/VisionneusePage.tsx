@@ -1,5 +1,5 @@
 import React from "react";
-import { COULEURS, URL_API } from "../constants/couleurs";
+import { COULEURS, URL_API } from "../constante/constante";
 
 interface VisionneusePageProps {
   imagePath: string;

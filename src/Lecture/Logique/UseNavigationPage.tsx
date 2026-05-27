@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState, useCallback } from "react";
-import type { Page } from "../types/livreTypes";
+import type { Page } from "../type/LivreType";
 
 export const useNavigationPages = (
   pages: Page[],
