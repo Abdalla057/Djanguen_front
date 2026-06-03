@@ -1,18 +1,32 @@
-/* eslint-disable react-refresh/only-export-components */
-export const URL_API = import.meta.env.VITE_API_URL;
-
 export const COULEURS = {
-  fond1:   "#0f0c29",
-  fond2:   "#302b63",
-  fond3:   "#24243e",
-  bleu:    "#6366f1",
-  cyan:    "#a78bfa",
-  violet:  "#c20074",
-  texte:   "#f1f5f9",
-  attenue: "#cbd5e1",
-  discret: "#94a3b8",
-  bordure: "rgba(99,102,241,0.2)",
-  lueur:   "rgba(99,102,241,0.35)",
-  lueurC:  "rgba(167,139,250,0.25)",
-  ombre:   "rgba(0,0,0,0.6)",
+  // Fonds
+  bgPage:       "#fdf6f0",
+  bgWhite:      "#ffffff",
+  heroSaumon:   "#fde8d8",
+  heroBleupast: "#c8e8f0",
+
+  // Cards
+  cardBranding: "#fff5f3",
+  cardWebD:     "#f3f1ff",
+  cardSEO:      "#fffbec",
+
+  // Portfolio
+  portVert:     "#4ecb8d",
+  portViolet:   "#a78bfa",
+  portAmbre:    "#fbbf24",
+
+  // Textes
+  textDark:     "#1a1a2e",
+  textBody:     "#6b7280",
+  textLight:    "#374151",
+
+  // Accent
+  cta:          "#f5c842",
+  ctaText:      "#1a1a2e",
+
+  // Déco
+  blobRose:     "#f9a8d4",
+  blobViolet:   "#c4b5fd",
+  blobJaune:    "#fcd34d",
+  sphereBleu:   "#60a5fa",
 } as const;

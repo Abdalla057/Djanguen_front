@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback,} from 'react';
-import { Settings, Bell,  ChevronDown } from 'lucide-react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Settings, Bell, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-
-
-
 
 interface HeaderState {
   showProfileMenu: boolean;
@@ -11,7 +8,7 @@ interface HeaderState {
 }
 
 const AdminHeader = () => {
-  const navigate = useNavigate();
+  const navigate       = useNavigate();
   const profileMenuRef = useRef<HTMLDivElement>(null);
 
   const [state, setState] = useState<HeaderState>({
@@ -19,17 +16,8 @@ const AdminHeader = () => {
     isLoading: false,
   });
 
+  const notifications = 3; // Exemple de nombre de notifications, à remplacer par une valeur dynamique si nécessaire
 
-
-  const notifications = 3; // Exemple: notifications liées aux livres (nouveaux ajouts, emprunts, retours)
-
-  // --- Handlers ---
-  const handleSettingsClick = useCallback(async () => {
-    setState((prev) => ({ ...prev, isLoading: true }));
-    await new Promise((resolve) => setTimeout(resolve, 300));
-    setState((prev) => ({ ...prev, isLoading: false }));
-    navigate('/Parametre');
-  }, [navigate]);
 
   const handleToggleProfileMenu = useCallback(() => {
     setState((prev) => ({ ...prev, showProfileMenu: !prev.showProfileMenu }));
@@ -39,8 +27,6 @@ const AdminHeader = () => {
     setState((prev) => ({ ...prev, showProfileMenu: false }));
   }, []);
 
-
-   // ✅ Ferme le menu si clic à l'extérieur
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (profileMenuRef.current && !profileMenuRef.current.contains(event.target as Node)) {
@@ -53,7 +39,6 @@ const AdminHeader = () => {
     }
   }, [state.showProfileMenu, handleCloseProfileMenu]);
 
-  // ✅ Ferme le menu à l'échappement
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && state.showProfileMenu) handleCloseProfileMenu();
@@ -62,43 +47,58 @@ const AdminHeader = () => {
     return () => document.removeEventListener('keydown', handleEscape);
   }, [state.showProfileMenu, handleCloseProfileMenu]);
 
-  // --- Sous-composants ---
   const NotificationsButton = () => (
-    <button className="relative p-2 rounded-lg bg-gray-700/40 hover:bg-gray-700/60">
-      <Bell className="w-5 h-5 text-red-200 animate-pulse hover:animate-none" />
+    <button className="relative p-2 rounded-xl bg-[#ffffff] border border-[#fde8d8] hover:bg-[#fde8d8] transition-all shadow-sm">
+      <Bell className="w-5 h-5 text-[#f5c842] animate-pulse hover:animate-none" />
       {notifications > 0 && (
-        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-xs text-white flex items-center justify-center">
+        <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-400 rounded-full text-[10px] text-white flex items-center justify-center font-bold">
           {notifications}
         </span>
       )}
     </button>
   );
 
-  const SettingsButton = () => (
-    <button
-      onClick={handleSettingsClick}
-      disabled={state.isLoading}
-      className="p-2 rounded-lg bg-gray-700/40 hover:bg-gray-700/60 disabled:opacity-50"
-    >
-      <Settings className={`w-5 h-5 ${state.isLoading ? 'animate-spin' : ''}`} />
-    </button>
-  );
-
-
   return (
-    <header className="relative w-full bg-gradient-to-r from-gray-800 to-gray-700 text-white p-4 shadow-lg">
+    /* bgPage + heroSaumon border bas */
+    <header className="w-full bg-[#fdf6f0] border-b border-[#fde8d8] px-6 py-3 shadow-sm">
       <div className="flex justify-end items-center gap-3 relative" ref={profileMenuRef}>
+
         <NotificationsButton />
-        <SettingsButton />
+
+        {/* Bouton profil — bgWhite + heroSaumon border */}
         <button
           onClick={handleToggleProfileMenu}
-          className="flex items-center gap-2 p-2 bg-gray-700/40 rounded-lg"
+          className="flex items-center gap-2 px-3 py-2 rounded-xl bg-[#ffffff] border border-[#fde8d8] hover:bg-[#fde8d8] transition-all shadow-sm"
         >
-        
+          {/* Avatar — cta gradient */}
+          <div className="w-6 h-6 rounded-full bg-gradient-to-br from-[#f5c842] to-[#fbbf24] flex items-center justify-center">
+            <span className="text-[10px] font-bold text-[#1a1a2e]">A</span>
+          </div>
+          <span className="text-xs font-semibold text-[#1a1a2e]">Admin</span>
           <ChevronDown
-            className={`w-4 h-4 transition-transform ${state.showProfileMenu ? 'rotate-180' : ''}`}
+            className={`w-4 h-4 text-[#6b7280] transition-transform duration-300 ${
+              state.showProfileMenu ? 'rotate-180' : ''
+            }`}
           />
         </button>
+
+        {/* Menu déroulant — bgWhite + heroSaumon border */}
+        {state.showProfileMenu && (
+          <div className="absolute top-full right-0 mt-2 w-44 rounded-2xl bg-[rgb(255,255,255)] border border-[#f1a871] shadow-lg z-50 overflow-hidden">
+            <div className="px-4 py-3 border-b border-[#fde8d8]">
+              <p className="text-xs font-bold text-[#1a1a2e]">Admin User</p>
+              <p className="text-[11px] text-[#6b7280]">Administrateur</p>
+            </div>
+            <button
+              onClick={() => navigate('/Parametre')}
+              className="w-full flex items-center gap-2 px-4 py-2.5 text-xs text-[#374151] hover:bg-[#fde8d8] transition-colors"
+            >
+              <Settings className="w-3.5 h-3.5 text-[#eebb23]" />
+              Paramètres
+            </button>
+          </div>
+        )}
+
       </div>
     </header>
   );

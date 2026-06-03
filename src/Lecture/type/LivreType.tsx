@@ -8,3 +8,8 @@ export interface Livre {
   id: number;
   titre: string;
 }
+
+export interface Audio {
+  
+  audioFichier?: string;
+}

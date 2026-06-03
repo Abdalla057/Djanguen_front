@@ -1,30 +1,20 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-// logique
 import { useChargementLivres } from "./logique/useChargementLivre";
 import { useFiltrageLivres }   from "./logique/useFiltrageLivre";
 
-// Composants
-import EnteteBibliotheque                        from "./composant/EnteteBibliotheque";
-import CarteLivre                                from "./composant/CarteLivre";
+import EnteteBibliotheque                                        from "./composant/EnteteBibliotheque";
+import CarteLivre                                                from "./composant/CarteLivre";
 import { EtatChargement, EtatErreur, EtatVide, TitreCategorie } from "./composant/ComposantEtat";
 
-// Constantes
-import { COULEURS } from "./constant/couleur";
 import type { ModeAffichage } from "./types/BibliothequeType";
 
-/* ================================================================
-   ORCHESTRATEUR — Bibliothèque
-   Responsabilité : assembler les hooks et distribuer les données
-   aux composants enfants.
-   ================================================================ */
 const Bibliotheque: React.FC = () => {
   const naviguer = useNavigate();
 
   const [modeAffichage, setModeAffichage] = useState<ModeAffichage>("grille");
 
-  // ── Données ───────────────────────────────────────────
   const { livres, chargement, erreur } = useChargementLivres();
 
   const {
@@ -38,23 +28,17 @@ const Bibliotheque: React.FC = () => {
     totalLivres,
   } = useFiltrageLivres(livres);
 
-  // ── Navigation ────────────────────────────────────────
   const naviguerVersLivre = useCallback(
     (id: number) => naviguer(`/livre/${id}/pages`),
     [naviguer]
   );
 
-  // ── États de page ─────────────────────────────────────
   if (chargement) return <EtatChargement />;
   if (erreur)     return <EtatErreur message={erreur} />;
 
   return (
-    <div
-      className="min-h-screen px-4 sm:px-6 lg:px-8 py-8 sm:py-12"
-      style={{
-        background: `linear-gradient(160deg, ${COULEURS.fond} 0%, #0d1520 50%, ${COULEURS.fond} 100%)`,
-      }}
-    >
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 py-8 sm:py-12 bg-gradient-to-b from-[#fdf6f0] to-[#fde8d8]">
+
       <style>{`
         @keyframes shimmer {
           0%   { background-position: -200% 0; }
@@ -68,13 +52,13 @@ const Bibliotheque: React.FC = () => {
           from { opacity: 0; transform: translateY(14px); }
           to   { opacity: 1; transform: translateY(0);    }
         }
-        .fade-in   { animation: apparitionBas      0.4s  ease forwards; }
-        .decalage  { animation: decalageApparition 0.35s ease forwards; opacity: 0; }
+        .fade-in  { animation: apparitionBas      0.4s  ease forwards; }
+        .decalage { animation: decalageApparition 0.35s ease forwards; opacity: 0; }
       `}</style>
 
       <div className="max-w-7xl mx-auto">
 
-        {/* ════ EN-TÊTE + RECHERCHE + FILTRES ════ */}
+        {/* ════ EN-TÊTE ════ */}
         <EnteteBibliotheque
           totalLivres={livres.length}
           totalCategories={categories.length}
@@ -121,6 +105,7 @@ const Bibliotheque: React.FC = () => {
             </section>
           ))
         )}
+
       </div>
     </div>
   );

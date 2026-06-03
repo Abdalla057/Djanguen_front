@@ -26,7 +26,7 @@ const PanneauDroit = () => {
   } = useBarreStatistique({ users: allUsers });
 
   return (
-    <div className="p-6 md:p-8 space-y-8 bg-violet-60 dark:bg-[#09205d] min-h-screen shadow-lg">
+    <div className="p-6 md:p-8 space-y-8 bg-violet-60 dark:bg-[#1b1239] min-h-screen shadow-lg">
 
       {/* HEADER */}
       <div className="rounded-2xl bg-violet-100 dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl">
@@ -34,7 +34,7 @@ const PanneauDroit = () => {
       </div>
 
       {/* STATUS CARDS */}
-      <div className="rounded-2xl bg-violet-100 dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl">
+      <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200">
             Statut des utilisateurs
@@ -47,7 +47,7 @@ const PanneauDroit = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         {/* BAR CHART */}
-        <div className="rounded-2xl bg-violet-100 dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl hover:shadow-xl transition">
+        <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl hover:shadow-xl transition">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200">
               Statistiques globales
@@ -65,7 +65,7 @@ const PanneauDroit = () => {
         </div>
 
         {/* DONUT CHART */}
-        <div className="rounded-2xl bg-violet-100 dark:bg-[#1241a7] border border-gray-100 dark:border-white/10 p-6 shadow-sm hover:shadow-md transition">
+        <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#1241a7] border border-gray-100 dark:border-white/10 p-6 shadow-sm hover:shadow-md transition">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="text-sm font-bold text-gray-700 dark:text-gray-200">
               Répartition activité
@@ -85,7 +85,7 @@ const PanneauDroit = () => {
       </div>
 
       {/* TABLE */}
-      <div className="rounded-2xl bg-violet-100 dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl hover:shadow-2xl transition">
+      <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl hover:shadow-2xl transition">
         <div className="mb-4 flex items-center justify-between">
           <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
             Gestion des utilisateurs

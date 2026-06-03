@@ -1,17 +1,9 @@
-import type { User } from "../type/PanneauGauche.Type";
-import React, {
-  useEffect,
-  useState,
-} from "react";
+import React, { useEffect, useState } from "react";
+import { Users, Ban } from "lucide-react";
 
+import type { User } from "../type/GestionUtilisateurType";
 import { socket } from "../../../../SOCKET/composant/socket";
-
 import { SOCKET_EVENTS } from "../../../../SOCKET/composant/events";
-
-import {
-  Users,
-  Ban,
-} from "lucide-react";
 
 interface Props {
   users?: User[];
@@ -19,475 +11,127 @@ interface Props {
   onBlock: (id: number) => void;
 }
 
-/* ================================================================
-   COULEURS AVATAR
-================================================================ */
+const obtenirInitiales = (nom: string) =>
+  nom.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
-const AVATAR_COLORS = [
+export default function ListeUtilisateurs({ users = [], loading, onBlock }: Props) {
 
-  {
-    bg: "bg-violet-100",
-    text: "text-violet-800",
-  },
-
-  {
-    bg: "bg-blue-100",
-    text: "text-blue-800",
-  },
-
-  {
-    bg: "bg-emerald-100",
-    text: "text-emerald-800",
-  },
-
-  {
-    bg: "bg-amber-100",
-    text: "text-amber-800",
-  },
-
-  {
-    bg: "bg-pink-100",
-    text: "text-pink-800",
-  },
-
-] as const;
-
-/* ================================================================
-   INITIALS
-================================================================ */
-
-const obtenirInitiales = (
-  nom: string
-) => {
-
-  return nom
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-
-};
-
-/* ================================================================
-   COMPONENT
-================================================================ */
-
-export default function ListeUtilisateurs({
-  users = [],
-  loading,
-  onBlock,
-}: Props) {
-
-  /* ================================================================
-     STATE
-  ================================================================ */
-
-  const [liveUsers, setLiveUsers] =
-    useState<User[]>(users || []);
-
-  /* ================================================================
-     WEBSOCKET
-  ================================================================ */
+  const [liveUsers, setLiveUsers] = useState<User[]>(users);
 
   useEffect(() => {
-
-    setLiveUsers(users || []);
-
-    socket.on(
-      SOCKET_EVENTS.USER_STATUS,
-      (data) => {
-
-        setLiveUsers((prev) =>
-
-          (prev || []).map((user) =>
-
-            user.id === data.userId
-
-              ? {
-                  ...user,
-                  statut:
-                    data.status === "ONLINE"
-                      ? "ACTIF"
-                      : "INACTIF",
-                }
-
-              : user
-          )
-        );
-
-      }
-    );
-
-    return () => {
-
-      socket.off(
-        SOCKET_EVENTS.USER_STATUS
+    setLiveUsers(users);
+    socket.on(SOCKET_EVENTS.USER_STATUS, (data) => {
+      setLiveUsers((prev) =>
+        prev.map((user) =>
+          user.id === data.userId
+            ? { ...user, statut: data.status === "ONLINE" ? "ACTIF" : "BLOQUE" }
+            : user
+        )
       );
-
-    };
-
+    });
+    return () => { socket.off(SOCKET_EVENTS.USER_STATUS); };
   }, [users]);
 
-  /* ================================================================
-     LOADING
-  ================================================================ */
-
   if (loading) {
-
     return (
-
-      <div
-        className="
-          p-4
-          flex items-center gap-2
-          text-slate-400
-          text-sm
-        "
-      >
-
-        <span className="animate-pulse">
-
-          Chargement utilisateurs...
-
-        </span>
-
+      <div className="p-4 text-sm animate-pulse" style={{ color: "#6b7280" }}>
+        Chargement utilisateurs...
       </div>
-
     );
-
   }
 
-  /* ================================================================
-     UTILISATEURS ACTIFS
-  ================================================================ */
-
-  const actifCount =
-
-    (liveUsers || []).filter(
-
-      (u) => u.statut === "ACTIF"
-
-    ).length;
-
-  /* ================================================================
-     UI
-  ================================================================ */
+  const actifs = liveUsers.filter((u) => u.statut === "ACTIF").length;
 
   return (
+    <div className="rounded-[28px] p-4 shadow" style={{ background: "#fdf6f0" }}>
 
-    <div
-      className="
-        bg-[#f5f6fb]
-        rounded-[28px]
-        p-4
-        border border-white/40
-        shadow-[0_8px_32px_rgba(15,23,42,0.06)]
-      "
-    >
+      {/* ── Header ── */}
+      <div className="flex items-center justify-between mb-4">
 
-      {/* =========================================================
-          HEADER
-      ========================================================= */}
-
-      <div
-        className="
-          flex items-center
-          justify-between
-          mb-4
-        "
-      >
-
-        <div
-          className="
-            flex items-center
-            gap-3
-          "
-        >
-
+        <div className="flex items-center gap-3">
           <div
-            className="
-              w-10 h-10
-              rounded-xl
-              bg-white
-              shadow-sm
-              border border-slate-100
-              flex items-center
-              justify-center
-            "
+            className="w-10 h-10 rounded-xl flex items-center justify-center shadow-sm"
+            style={{ background: "#ffffff" }}
           >
-
-            <Users
-              className="
-                w-4 h-4
-                text-slate-500
-              "
-            />
-
+            <Users className="w-4 h-4" style={{ color: "#6b7280" }} />
           </div>
 
           <div>
-
-            <p
-              className="
-                text-[15px]
-                font-semibold
-                text-slate-800
-              "
-            >
-
+            <p className="font-semibold text-sm" style={{ color: "#1a1a2e" }}>
               Utilisateurs
-
             </p>
-
-            <p
-              className="
-                text-[11px]
-                text-slate-400
-                mt-0.5
-              "
-            >
-
-              {liveUsers.length} au total
-
+            <p className="text-xs" style={{ color: "#6b7280" }}>
+              {liveUsers.length} total
             </p>
-
           </div>
-
         </div>
 
-        {/* =====================================================
-            COMPTEUR EN LIGNE
-        ===================================================== */}
-
-        <div
-          className="
-            flex items-center
-            gap-1.5
-          "
-        >
-
-          <span
-            className="
-              w-2 h-2
-              rounded-full
-              bg-emerald-500
-              animate-pulse
-            "
-          />
-
-          <span
-            className="
-              text-[12px]
-              text-slate-500
-            "
-          >
-
-            {actifCount} en ligne
-
-          </span>
-
+        <div className="text-xs flex items-center gap-1" style={{ color: "#374151" }}>
+          <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#4ecb8d" }} />
+          {actifs} en ligne
         </div>
 
       </div>
 
-      {/* =========================================================
-          LISTE
-      ========================================================= */}
+      {/* ── Liste ── */}
+      <div className="flex flex-col gap-2 max-h-[340px] overflow-y-auto">
 
-      <div
-        className="
-          flex flex-col gap-2
-          max-h-[340px]
-          overflow-y-auto
-          pr-1
-          scrollbar-thin
-          scrollbar-thumb-slate-200
-          scrollbar-track-transparent
-        "
-      >
+        {liveUsers.map((user) => {
+          const actif = user.statut === "ACTIF";
 
-        {(liveUsers || []).map(
-          (user, idx) => {
+          return (
+            <div
+              key={user.id}
+              className="flex items-center gap-3 p-3 rounded-xl"
+              style={{ background: "#ffffff" }}
+            >
 
-            const actif =
-              user.statut === "ACTIF";
-
-            const couleur =
-              AVATAR_COLORS[
-                idx %
-                AVATAR_COLORS.length
-              ];
-
-            return (
-
+              {/* Avatar */}
               <div
-                key={user.id}
-                className="
-                  flex items-center gap-3
-                  bg-white
-                  rounded-2xl
-                  px-3 py-2.5
-                  border border-white/60
-                  shadow-[0_2px_8px_rgba(15,23,42,0.04)]
-                  hover:shadow-[0_4px_14px_rgba(15,23,42,0.07)]
-                  transition-all duration-200
-                "
+                className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold"
+                style={{ background: "#f3f1ff", color: "#a78bfa" }}
               >
-
-                {/* ================================
-                    AVATAR
-                ================================= */}
-
-                <div
-                  className={`
-                    w-10 h-10
-                    rounded-full
-                    flex-shrink-0
-                    flex items-center
-                    justify-center
-                    text-[12px]
-                    font-semibold
-                    ${couleur.bg}
-                    ${couleur.text}
-                  `}
-                >
-
-                  {obtenirInitiales(
-                    user.nom
-                  )}
-
-                </div>
-
-                {/* ================================
-                    INFOS
-                ================================= */}
-
-                <div
-                  className="
-                    flex-1
-                    min-w-0
-                  "
-                >
-
-                  <p
-                    className="
-                      text-[13px]
-                      font-semibold
-                      text-slate-800
-                      truncate
-                    "
-                  >
-
-                    {user.nom}
-
-                  </p>
-
-                  <p
-                    className="
-                      text-[11px]
-                      text-slate-400
-                      truncate
-                    "
-                  >
-
-                    {user.email}
-
-                  </p>
-
-                </div>
-
-                {/* ================================
-                    ACTIONS
-                ================================= */}
-
-                <div
-                  className="
-                    flex items-center
-                    gap-2
-                    flex-shrink-0
-                  "
-                >
-
-                  {/* DOT */}
-
-                  <span
-                    className={`
-                      w-2 h-2
-                      rounded-full
-                      ${
-                        actif
-                          ? "bg-emerald-500"
-                          : "bg-slate-300"
-                      }
-                    `}
-                  />
-
-                  {/* BADGE */}
-
-                  <span
-                    className={`
-                      text-[10px]
-                      font-semibold
-                      px-2 py-0.5
-                      rounded-full
-                      ${
-                        actif
-                          ? "bg-emerald-100 text-emerald-800"
-                          : "bg-red-100 text-red-700"
-                      }
-                    `}
-                  >
-
-                    {user.statut}
-
-                  </span>
-
-                  {/* BOUTON */}
-
-                  {actif && (
-
-                    <button
-                      onClick={() =>
-                        onBlock(user.id)
-                      }
-                      className="
-                        flex items-center gap-1
-                        h-7 px-2.5
-                        rounded-lg
-                        bg-red-50 hover:bg-red-100
-                        border border-red-200
-                        text-red-600
-                        text-[11px] font-medium
-                        transition-colors
-                      "
-                    >
-
-                      <Ban
-                        className="
-                          w-3 h-3
-                        "
-                      />
-
-                      Bloquer
-
-                    </button>
-
-                  )}
-
-                </div>
-
+                {obtenirInitiales(user.nom)}
               </div>
 
-            );
+              {/* Infos */}
+              <div className="flex-1">
+                <p className="text-sm font-medium" style={{ color: "#1a1a2e" }}>
+                  {user.nom}
+                </p>
+                <p className="text-xs" style={{ color: "#6b7280" }}>
+                  {user.email}
+                </p>
+              </div>
 
-          }
-        )}
+              {/* Statut */}
+              <span
+                className="text-xs px-2 py-0.5 rounded-full"
+                style={{
+                  background: actif ? "#fde8d8" : "#fff5f3",
+                  color:      actif ? "#4ecb8d" : "#fbbf24",
+                }}
+              >
+                {user.statut}
+              </span>
+
+              {/* Bloquer */}
+              {actif && (
+                <button
+                  onClick={() => onBlock(user.id)}
+                  className="text-xs flex items-center gap-1 hover:opacity-70 transition-opacity"
+                  style={{ color: "#fbbf24" }}
+                >
+                  <Ban className="w-3 h-3" />
+                  Bloquer
+                </button>
+              )}
+
+            </div>
+          );
+        })}
 
       </div>
-
     </div>
-
   );
-
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Chart, registerables } from "chart.js";
-import type { DonutSlice } from "../type/types";
+import type { DonutSlice } from "../type/BarreStatistiqueType";
 
 Chart.register(...registerables);
 
@@ -51,7 +51,7 @@ const CercleStatistique = ({ slices, centerValue, centerLabel }: Props) => {
     <div className="relative w-full h-44">
       <canvas ref={canvasRef} />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center ">
         <span className="text-xl font-bold">{centerValue}</span>
         <span className="text-xs text-gray-400">{centerLabel}</span>
       </div>

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { BookOpen, Home, LogOut, X, AlertCircle, ChevronRight, User } from "lucide-react";
+import { BookOpen, Home, LogOut, X, AlertCircle, ChevronRight } from "lucide-react";
 import { GiBookshelf } from "react-icons/gi";
 import { MdHistory } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-// ── Types ──────────────────────────────────────────────
 interface Position {
   path: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -18,7 +17,6 @@ interface AdminSidebarProps {
   isOpen?: boolean;
 }
 
-// ── Liens de navigation ────────────────────────────────
 const FirstPosition: Position[] = [
   { path: "/admin/home",         icon: Home,        label: "Home" },
   { path: "/admin/livres",       icon: BookOpen,    label: "Gestion des livres" },
@@ -27,26 +25,23 @@ const FirstPosition: Position[] = [
 ];
 
 const AdminSidebar = ({ closeSidebar, isOpen = true }: AdminSidebarProps) => {
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isHovered, setIsHovered]             = useState<string | null>(null);
 
-  // Navigation vers une page et fermeture du sidebar sur mobile
   const handleNavClick = (path: string) => {
     navigate(path);
     if (closeSidebar) closeSidebar();
   };
 
-  // Déconnexion : suppression du token et redirection
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     navigate("/Connection");
   };
 
-  // ── Bouton de navigation individuel ───────────────────
   const NavButton = ({ item, isActive }: { item: Position; isActive: boolean }) => {
     const Icon = item.icon;
     return (
@@ -55,17 +50,17 @@ const AdminSidebar = ({ closeSidebar, isOpen = true }: AdminSidebarProps) => {
         onMouseLeave={() => setIsHovered(null)}
         onClick={() => handleNavClick(item.path)}
         className={`group relative w-full flex items-center gap-2.5 px-3 py-2.5 rounded-xl font-medium transition-all duration-300 overflow-hidden ${
-          isActive ? "text-white" : "text-slate-300 hover:text-white"
+          isActive ? "text-[#1a1a2e]" : "text-[#374151] hover:text-[#1a1a2e]"
         }`}
         whileHover={{ x: 3 }}
         whileTap={{ scale: 0.98 }}
       >
-        {/* Fond animé pour l'élément actif */}
+        {/* Fond actif — cta */}
         <AnimatePresence>
           {isActive && (
             <motion.div
               layoutId="activeNav"
-              className="absolute inset-0 bg-gradient-to-r from-indigo-600/60 to-purple-600/60 shadow-[0_0_16px_rgba(79,70,229,0.25)]"
+              className="absolute inset-0 bg-gradient-to-r from-[#f5c842] to-[#fbbf24] shadow-md"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -73,34 +68,33 @@ const AdminSidebar = ({ closeSidebar, isOpen = true }: AdminSidebarProps) => {
           )}
         </AnimatePresence>
 
-        {/* Fond au survol pour les éléments inactifs */}
+        {/* Fond survol — heroSaumon */}
         {!isActive && isHovered === item.path && (
           <motion.div
-            className="absolute inset-0 bg-white/8"
+            className="absolute inset-0 bg-[#fde8d8]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           />
         )}
 
-        {/* Contenu du bouton : icône + label + badge optionnel */}
         <div className="relative z-10 flex items-center gap-2.5 w-full">
-          <Icon className={`w-4 h-4 flex-shrink-0 transition-transform duration-500 ${
+          <Icon className={`w-4 h-4 flex-shrink-0 transition-transform duration-300 ${
             isActive ? "scale-110 rotate-3" : "group-hover:scale-110"
           }`} />
           <span className="flex-1 text-left text-xs tracking-wide truncate">{item.label}</span>
 
-          {/* Badge numérique optionnel */}
+          {/* Badge — cta */}
           {item.badge && (
-            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-amber-500 text-white rounded-full">
+            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-[#f5c842] text-[#1a1a2e] rounded-full">
               {item.badge}
             </span>
           )}
 
-          {/* Flèche indicatrice sur l'élément actif */}
+          {/* Flèche active textDark */}
           {isActive && (
             <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }}>
-              <ChevronRight className="w-3 h-3 opacity-50" />
+              <ChevronRight className="w-3 h-3 text-[#1a1a2e] opacity-60" />
             </motion.div>
           )}
         </div>
@@ -110,116 +104,84 @@ const AdminSidebar = ({ closeSidebar, isOpen = true }: AdminSidebarProps) => {
 
   return (
     <>
-      {/* ── Overlay sombre sur mobile quand le sidebar est ouvert ── */}
+      {/* ── Overlay mobile ── */}
       <AnimatePresence>
         {isOpen && closeSidebar && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-40 md:hidden"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
             onClick={closeSidebar}
           />
         )}
       </AnimatePresence>
 
-      {/* ══════════════════════════════════════
-          SIDEBAR PRINCIPALE
-      ══════════════════════════════════════ */}
+      {/*   Sidebar bgPage  */}
       <motion.aside
         initial={false}
         animate={{ x: isOpen ? 0 : -320 }}
-        className={`fixed top-0 left-0 h-screen w-64 flex flex-col z-50 overflow-hidden ${
+        className={`fixed top-0 left-2 h-screen w-60 flex flex-col z-50 overflow-hidden bg-[#fdf6f0] ${
           !isOpen && "md:translate-x-0"
         }`}
-        style={{
-          background: "linear-gradient(160deg, #0f0c29 0%, #302b63 60%, #24243e 100%)",
-        }}
       >
-        {/* Halo décoratif rose — coin haut gauche */}
-        <div style={{
-          position: "absolute", top: "-100px", left: "-100px",
-          width: "300px", height: "300px", borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(194,0,116,0.28) 0%, transparent 70%)",
-          pointerEvents: "none", zIndex: 0,
-        }} />
-
-        {/* Halo décoratif indigo — coin bas droite */}
-        <div style={{
-          position: "absolute", bottom: "-80px", right: "-80px",
-          width: "240px", height: "240px", borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 70%)",
-          pointerEvents: "none", zIndex: 0,
-        }} />
-
-        {/* Panneau glassmorphism interne */}
+        {/* Halo haut-gauche — cta */}
         <div
-          className="absolute inset-3 rounded-2xl"
-          style={{
-            background: "rgba(255,255,255,0.05)",
-            backdropFilter: "blur(16px)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            boxShadow: "0 8px 32px rgba(0,0,0,0.3)",
-            zIndex: 1,
-          }}
+          className="absolute -top-24 -left-24 w-72 h-72 rounded-full pointer-events-none z-0"
+          style={{ background: "radial-gradient(circle, rgba(245,200,66,0.3) 0%, transparent 70%)" }}
         />
 
-        {/* ── En-tête / Logo ── */}
+        {/* Halo bas-droite — heroBleupast */}
+        <div
+          className="absolute -bottom-20 -right-20 w-60 h-60 rounded-full pointer-events-none z-0"
+          style={{ background: "radial-gradient(circle, rgba(200,232,240,0.6) 0%, transparent 70%)" }}
+        />
+
+        {/* Panneau interne — bgWhite + heroSaumon border */}
+        <div className="absolute inset-2 rounded-2xl z-[1] bg-white/60 backdrop-blur-sm border border-[#fde8d8]" />
+
+        {/* ── En-tête ── */}
         <div className="relative z-10 px-4 py-5">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
 
-              {/* Icône logo avec halo au survol */}
+              {/* Logo — cta glow */}
               <div className="relative group">
-                <div className="absolute -inset-5 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl blur opacity-30 group-hover:opacity-60 transition duration-700" />
-                <div
-                  className="relative w-9 h-9 rounded-xl flex items-center justify-center shadow-2xl"
-                  style={{
-                    background: "rgba(255,255,255,0.08)",
-                    border: "1px solid rgba(255,255,255,0.15)",
-                    backdropFilter: "blur(8px)",
-                  }}
-                >
-                  <BookOpen className="w-4 h-4 text-indigo-300" />
+                <div className="absolute -inset-1 rounded-xl blur opacity-40 group-hover:opacity-70 transition duration-500 bg-gradient-to-r from-[#f5c842] to-[#fbbf24]" />
+                <div className="relative w-9 h-9 rounded-xl flex items-center justify-center bg-[#ffffff] border border-[#fde8d8] shadow-sm">
+                  <BookOpen className="w-10 h-10 text-[#2a2720]" />
                 </div>
               </div>
 
-              {/* Nom de l'application */}
+              {/* Nom — textDark + cta accent */}
               <div>
-                <h1 className="text-sm font-bold text-white tracking-tight leading-none">
-                  DARSH<span className="text-indigo-400">APP</span>
+                <h1 className="text-2xl font-bold tracking-tight leading-none text-[#1a1a2e]">
+                  DiAn<span className="text-[#f5c842]">Gueen</span>
                 </h1>
-                <p className="text-[9px] uppercase tracking-[0.18em] text-slate-400 font-bold mt-0.5">
-                  Administration
-                </p>
               </div>
             </div>
 
-            {/* Bouton de fermeture — visible uniquement sur mobile */}
+            {/* Bouton fermeture mobile — bgWhite + heroSaumon border */}
             {closeSidebar && (
               <button
                 onClick={closeSidebar}
-                className="md:hidden w-7 h-7 rounded-full flex items-center justify-center"
-                style={{
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.1)",
-                }}
+                className="md:hidden w-7 h-7 rounded-full flex items-center justify-center bg-[#ffffff] border border-[#fde8d8]"
               >
-                <X className="w-3 h-3 text-slate-300" />
+                <X className="w-3 h-3 text-[#374151]" />
               </button>
             )}
           </div>
         </div>
 
-        {/* ── Navigation principale ── */}
+        {/* ── Navigation ── */}
         <nav className="relative z-10 flex-1 px-3 py-2 space-y-0.5 overflow-y-auto scrollbar-hide">
           <div className="px-3 mb-3">
-            <p className="text-[9px] font-bold text-slate-500 uppercase tracking-[0.15em]">
+            {/* Label — textBody */}
+            <p className="text-[9px] font-bold uppercase tracking-[0.15em] text-[#6b7280]">
               Menu Principal
             </p>
           </div>
 
-          {/* Rendu de chaque lien de navigation */}
           {FirstPosition.map((item) => (
             <div key={item.path}>
               <NavButton item={item} isActive={location.pathname === item.path} />
@@ -227,140 +189,79 @@ const AdminSidebar = ({ closeSidebar, isOpen = true }: AdminSidebarProps) => {
           ))}
         </nav>
 
-        {/* ── Section bas : profil + déconnexion ── */}
+        {/* ── Bas : profil + déconnexion ── */}
         <div className="relative z-10 p-3 mt-auto">
 
-          {/* Séparateur */}
-          <div className="mb-3" style={{ height: "1px", background: "rgba(255,255,255,0.08)" }} />
-
-          {/* Carte profil */}
-          <div
-            className="p-3 rounded-xl mb-3"
-            style={{
-              background: "rgba(255,255,255,0.06)",
-              border: "1px solid rgba(255,255,255,0.1)",
-              backdropFilter: "blur(8px)",
-            }}
-          >
-            <div className="flex items-center gap-2.5">
-              <div
-                className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0"
-                style={{
-                  background: "linear-gradient(135deg, rgba(99,102,241,0.5), rgba(194,0,116,0.5))",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                }}
-              >
-                <User className="w-4 h-4 text-white" />
-              </div>
-              <p className="text-xs font-semibold text-white truncate flex-1">Admin User</p>
-            </div>
-          </div>
-
-          {/* Bouton de déconnexion */}
+          {/* Séparateur — heroSaumon */}
+          <div className="mb-3 h-px bg-[#fde8d8]" />
+          {/* Bouton déconnexion */}
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="w-full group flex items-center justify-center gap-2 py-2.5 rounded-xl font-bold text-xs transition-all duration-300"
-            style={{
-              background: "rgba(239,68,68,0.1)",
-              border: "1px solid rgba(239,68,68,0.25)",
-              color: "#f87171",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.75)";
-              (e.currentTarget as HTMLButtonElement).style.color = "#fff";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.background = "rgba(239,68,68,0.1)";
-              (e.currentTarget as HTMLButtonElement).style.color = "#f87171";
-            }}
+            className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl font-bold text-xs transition-all duration-300 bg-red-50 border border-red-200 text-red-400 hover:bg-red-400 hover:text-white"
           >
-            <LogOut className="w-3.5 h-3.5 transition-transform group-hover:-translate-x-1" />
+            <LogOut className="w-3.5 h-3.5" />
             Déconnexion
           </button>
         </div>
       </motion.aside>
 
-      {/* ══════════════════════════════════════
-          MODAL DE CONFIRMATION DE DÉCONNEXION
-      ══════════════════════════════════════ */}
+      {/* ── Modal déconnexion ── */}
       <AnimatePresence>
         {showLogoutModal && (
-          <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
+  <div className="fixed inset-0 flex items-center justify-center z-[70] p-4">
 
-            {/* Fond assombri avec fermeture au clic */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/90 backdrop-blur-sm"
-              onClick={() => setShowLogoutModal(false)}
-            />
+    {/* Overlay */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="absolute inset-0 bg-black/30 backdrop-blur-sm"
+      onClick={() => setShowLogoutModal(false)}
+    />
 
-            {/* Contenu de la modal */}
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0, y: 20 }}
-              animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.95, opacity: 0, y: 20 }}
-              className="relative rounded-[2.5rem] p-10 w-full max-w-md overflow-hidden"
-              style={{
-                background: "linear-gradient(135deg, #0f0c29 0%, #302b63 100%)",
-                border: "1px solid rgba(255,255,255,0.1)",
-                boxShadow: "0 32px 64px -12px rgba(0,0,0,0.6)",
-              }}
-            >
-              {/* Halo décoratif coin haut droit */}
-              <div style={{
-                position: "absolute", top: 0, right: 0,
-                width: "200px", height: "200px", borderRadius: "50%",
-                background: "radial-gradient(circle, rgba(194,0,116,0.2) 0%, transparent 70%)",
-                transform: "translate(50%,-50%)", pointerEvents: "none",
-              }} />
+    {/* Modal */}
+    <motion.div
+      initial={{ scale: 0.9, opacity: 0, y: 10 }}
+      animate={{ scale: 1, opacity: 1, y: 0 }}
+      exit={{ scale: 0.9, opacity: 0, y: 10 }}
+      className="relative rounded-2xl p-6 w-full max-w-xs bg-[#fdf6f0] border border-[rgb(232,209,190)] shadow-xl z-10"
+    >
+      {/* Icône */}
+      <div className="flex justify-center mb-4">
+        <div className="w-12 h-12 rounded-2xl flex items-center justify-center bg-red-50 border border-red-200">
+          <AlertCircle className="w-6 h-6 text-red-400" />
+        </div>
+      </div>
 
-              <div className="relative z-10">
+      {/* Texte */}
+      <h2 className="text-base font-bold text-center text-[#1a1a2e] mb-1">
+        Quitter la session ?
+      </h2>
+      <p className="text-xs text-center text-[#6b7280] mb-5 leading-relaxed">
+        Vous devrez vous reconnecter pour accéder à l'administration.
+      </p>
 
-                {/* Icône d'avertissement */}
-                <div
-                  className="w-20 h-20 rounded-3xl flex items-center justify-center mx-auto mb-8"
-                  style={{
-                    background: "rgba(239,68,68,0.1)",
-                    border: "1px solid rgba(239,68,68,0.25)",
-                  }}
-                >
-                  <AlertCircle className="w-10 h-10 text-red-400" />
-                </div>
+      {/* Boutons côte à côte */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => setShowLogoutModal(false)}
+          className="flex-1 py-2.5 rounded-xl text-xs font-semibold bg-[#ffffff] border border-[#fde8d8] text-[#374151] hover:bg-[#fde8d8] transition-all"
+        >
+          Annuler
+        </button>
+        <button
+          onClick={handleLogout}
+          className="flex-1 py-2.5 rounded-xl text-xs font-semibold bg-gradient-to-r from-[#f5c842] to-[#fbbf24] text-[#1a1a2e] hover:opacity-90 transition-all"
+        >
+          Confirmer
+        </button>
+      </div>
 
-                {/* Titre et description */}
-                <h2 className="text-2xl font-bold mb-3 text-center text-white tracking-tight">
-                  Quitter la session ?
-                </h2>
-                <p className="text-slate-400 text-center mb-10 text-sm leading-relaxed">
-                  Votre session sera terminée. Vous devrez vous reconnecter pour accéder à l'administration.
-                </p>
-
-                {/* Boutons d'action */}
-                <div className="flex flex-col gap-3">
-                  <button
-                    onClick={handleLogout}
-                    className="w-full py-4 text-white rounded-2xl font-bold transition-all duration-300 flex items-center justify-center gap-2"
-                    style={{ background: "linear-gradient(135deg, #c20074, #7c3aed)" }}
-                  >
-                    Confirmer la déconnexion
-                  </button>
-                  <button
-                    onClick={() => setShowLogoutModal(false)}
-                    className="w-full py-4 text-white rounded-2xl font-bold transition-all duration-300"
-                    style={{
-                      background: "rgba(255,255,255,0.05)",
-                      border: "1px solid rgba(255,255,255,0.1)",
-                    }}
-                  >
-                    Rester connecté
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
+    </motion.div>
+  </div>
+)}
+             
+         
       </AnimatePresence>
     </>
   );

@@ -5,7 +5,7 @@ import NotificationProvider from "./Notification/notificationContex";
 
 // Admin
 
-import PagesLivre from "./Lecture/Index";
+import IndexUI from "./Lecture/Index";
 import ListeModifier from "./Admin/ComposantLivre/ListeModifier/listemodifier";
 import AjouterAudio from "./Admin/ComposantLivre/AjouterAudio/Index";
 import AdminHome from "./Admin/ComposantTableau/AdminHome";
@@ -16,7 +16,7 @@ import Listelivres from "./Admin/ComposantLivre/gestionLivre/index";
 import Site from "./site/principal";       // ← point d'entrée principal du site
 import Connection from "./Connection/connection";
 import InscriptionPage from "./Connection/inscription";
-import HistoriqueLecture from './Historique/HistoriqueLecture';
+import Index from './historique/index';
 import ProfilPage from "./ComposantSite/Profil";
 
 import React from "react";
@@ -39,8 +39,8 @@ export default function App() {
 
             {/* ── Pages dédiées hors site ── */}
             <Route path="/profil" element={<ProfilPage />} />
-            <Route path="/lecture/historique/:userId" element={<HistoriqueLecture />} />
-            <Route path="/livre/:id/pages" element={<PagesLivre />} />
+            <Route path="/lecture/historique/:userId" element={<Index />} />
+            <Route path="/livre/:id/pages" element={<IndexUI />} />
 
             {/* ── Admin avec layout persistant ── */}
             <Route path="/admin" element={<AdminLayout />}>
@@ -48,7 +48,7 @@ export default function App() {
               <Route path="home"       element={<AdminHome />} />
               <Route path="/admin/livres"     element={<Listelivres />} />
               <Route path="bibliotheque" element={<Bibliothèque />} />
-              <Route path="historique" element={<HistoriqueLecture />} />
+              <Route path="historique" element={<Index />} />
               <Route path="audio"      element={<AjouterAudio />} />
               <Route path="affichage"  element={<ListeModifier />} />
               <Route path="footer"  element={<Footer />} />

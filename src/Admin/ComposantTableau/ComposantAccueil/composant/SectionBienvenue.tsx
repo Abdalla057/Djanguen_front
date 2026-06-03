@@ -6,17 +6,6 @@ interface Props {
   onVoirRapports?: () => void;
 }
 
-// ─── Icons ────────────────────────────────────────────────────────────────────
-const IconUsers = () => (
-  <svg width="36" height="36" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"
-    aria-hidden="true">
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-    <circle cx="9" cy="7" r="4"/>
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
-  </svg>
-);
-
 const IconChartBar = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
@@ -41,7 +30,7 @@ const BandeauBienvenue = ({
         px-8 py-10
         min-h-[200px]
         flex items-center justify-between gap-6
-        bg-indigo-100 dark:bg-slate-900
+        bg-[#fde8d8] dark:bg-slate-900
         border border-slate-100 dark:border-slate-800
         shadow-sm
       "
@@ -65,7 +54,7 @@ const BandeauBienvenue = ({
 
         <h1 className="text-2xl font-semibold text-slate-900 dark:text-slate-100 leading-tight">
           Bienvenue,{" "}
-          <span className="text-violet-700 dark:text-violet-400">{nom}</span>{" "}
+          <span className="text-[#fbbf24] dark:text-violet-400">{nom}</span>{" "}
           👋
         </h1>
 
@@ -80,8 +69,8 @@ const BandeauBienvenue = ({
           className="
             mt-2 self-start
             flex items-center gap-2
-            bg-violet-600 hover:bg-violet-700 dark:bg-violet-500 dark:hover:bg-violet-600
-            text-white
+            bg-[#f0c34f] hover:bg-[#4ecb8d] dark:bg-violet-500 dark:hover:bg-violet-600
+            text-[#1a1a2e]
             text-sm font-medium
             px-5 py-2.5
             rounded-xl
@@ -91,40 +80,20 @@ const BandeauBienvenue = ({
           "
         >
           <IconChartBar />
-          Voir les rapports
+          Voir plus
         </button>
 
       </div>
 
       {/* ── Contenu droit ── */}
       <div className="relative z-10 flex flex-col items-center gap-3 flex-shrink-0">
-
-        <div
-          className="
-            w-20 h-20 rounded-3xl
-            bg-violet-600 dark:bg-violet-500
-            flex items-center justify-center
-            text-white
-          "
-        >
-          <IconUsers />
-        </div>
-
-        <span
-          className="
-            flex items-center gap-2
-            text-xs font-medium
-            bg-emerald-50 dark:bg-emerald-900/30
-            text-emerald-700 dark:text-emerald-400
-            px-3 py-1 rounded-full
-            border border-emerald-100 dark:border-emerald-800
-            select-none
-          "
-        >
-          <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-pulse" aria-hidden="true" />
-          En ligne
-        </span>
-
+      <div className="w-60 h-60 rounded-3xl overflow-hidden">
+       <img
+          src="/public/images/image1.jpg"
+           alt=""
+          className="w-full h-full object-cover"
+         />
+      </div>
       </div>
     </div>
   );

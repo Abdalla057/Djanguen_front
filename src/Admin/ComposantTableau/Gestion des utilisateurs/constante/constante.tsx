@@ -1,9 +1,37 @@
 export const API_URL = import.meta.env.VITE_API_URL as string;
 
-export const DEFAULT_VOLUME = 80;
+export const COULEURS = {
+  // Fonds
+  bgPage:       "#fdf6f0",
+  bgWhite:      "#ffffff",
+  heroSaumon:   "#fde8d8",
+  heroBleupast: "#c8e8f0",
 
-export const MAX_BOOKS_HOME = 10;
+  // Cards
+  cardBranding: "#fff5f3",
+  cardWebD:     "#f3f1ff",
+  cardSEO:      "#fffbec",
 
-export const LIMITE_AUTEURS = 6;
+  // Portfolio
+  portVert:     "#4ecb8d",
+  portViolet:   "#a78bfa",
+  portAmbre:    "#fbbf24",
 
-export const LIMITE_LIVRES_POPULAIRES = 10;
+  // Textes
+  textDark:     "#1a1a2e",
+  textBody:     "#6b7280",
+  textLight:    "#374151",
+
+  // Accent
+  cta:          "#f5c842",
+  ctaText:      "#1a1a2e",
+
+  // Déco
+  blobRose:     "#f9a8d4",
+  blobViolet:   "#c4b5fd",
+  blobJaune:    "#fcd34d",
+  sphereBleu:   "#60a5fa",
+} as const;
+
+
+

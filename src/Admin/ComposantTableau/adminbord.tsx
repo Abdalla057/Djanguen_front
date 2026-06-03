@@ -56,7 +56,7 @@ const AdminBoard = () => {
 
       {/* ── Sidebar ── */}
       <div
-        className={`fixed top-0 left-0 z-50 h-full bg-white w-64 transition-transform duration-300 ease-in-out ${
+        className={`fixed top-0 left-0 z-50 h-full bg-white w-full transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
       >
@@ -69,7 +69,7 @@ const AdminBoard = () => {
       </div>
 
       {/* ── Contenu principal ── */}
-      <main className="p-4 md:ml-64">
+      <main className="p-4 md:ml-64 w-full">
   
       </main>
     </div>
