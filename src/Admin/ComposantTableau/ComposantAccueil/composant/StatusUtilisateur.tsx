@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-
 import type { UserView } from "../type/PanneauType";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -7,7 +6,7 @@ interface Props {
   users: UserView[];
 }
 
-// ─── Icons (inline SVG — zero deps) ──────────────────────────────────────────
+// ─── Icons ────────────────────────────────────────────────────────────────────
 const IconUsers = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -61,41 +60,41 @@ const IconTrendDown = () => (
 
 // ─── Color system ─────────────────────────────────────────────────────────────
 const TONES = {
-  violet: {
-    card:  "bg-violet-50 dark:bg-violet-900/30",
-    icon:  "bg-violet-600 dark:bg-violet-500",
-    glow:  "bg-violet-600",
-    label: "text-violet-700 dark:text-violet-300",
-    value: "text-violet-900 dark:text-violet-100",
-    bar:   "bg-violet-600 dark:bg-violet-400",
-    trend: "text-emerald-600 dark:text-emerald-400",
+  green: {
+    card:  "bg-[#0C3B2E]/5",
+    icon:  "bg-[#0C3B2E]",
+    glow:  "bg-[#0C3B2E]",
+    label: "text-[#0C3B2E]/70",
+    value: "text-[#0C3B2E]",
+    bar:   "bg-[#0C3B2E]",
+    trend: "text-emerald-600",
   },
-  emerald: {
-    card:  "bg-emerald-50 dark:bg-emerald-900/30",
-    icon:  "bg-emerald-600 dark:bg-emerald-500",
-    glow:  "bg-emerald-600",
-    label: "text-emerald-700 dark:text-emerald-300",
-    value: "text-emerald-900 dark:text-emerald-100",
-    bar:   "bg-emerald-600 dark:bg-emerald-400",
-    trend: "text-emerald-600 dark:text-emerald-400",
+  gold: {
+    card:  "bg-[#FFBA00]/10",
+    icon:  "bg-[#FFBA00]",
+    glow:  "bg-[#FFBA00]",
+    label: "text-[#0C3B2E]/70",
+    value: "text-[#0C3B2E]",
+    bar:   "bg-[#FFBA00]",
+    trend: "text-emerald-600",
   },
   red: {
-    card:  "bg-red-50 dark:bg-red-900/30",
-    icon:  "bg-red-500 dark:bg-red-600",
+    card:  "bg-red-50",
+    icon:  "bg-red-500",
     glow:  "bg-red-500",
-    label: "text-red-600 dark:text-red-300",
-    value: "text-red-900 dark:text-red-100",
-    bar:   "bg-red-500 dark:bg-red-400",
-    trend: "text-red-500 dark:text-red-400",
+    label: "text-red-600",
+    value: "text-red-700",
+    bar:   "bg-red-400",
+    trend: "text-red-500",
   },
-  amber: {
-    card:  "bg-amber-50 dark:bg-amber-900/30",
-    icon:  "bg-amber-500 dark:bg-amber-600",
-    glow:  "bg-amber-500",
-    label: "text-amber-700 dark:text-amber-300",
-    value: "text-amber-900 dark:text-amber-100",
-    bar:   "bg-amber-500 dark:bg-amber-400",
-    trend: "text-emerald-600 dark:text-emerald-400",
+  slate: {
+    card:  "bg-slate-50",
+    icon:  "bg-slate-600",
+    glow:  "bg-slate-400",
+    label: "text-slate-500",
+    value: "text-slate-800",
+    bar:   "bg-slate-400",
+    trend: "text-emerald-600",
   },
 } as const;
 
@@ -111,10 +110,10 @@ interface CardConfig {
 }
 
 const CARDS: CardConfig[] = [
-  { key: "total",    label: "Utilisateurs", Icon: IconUsers,       tone: "violet"  },
-  { key: "actifs",   label: "Actifs",       Icon: IconCheckCircle, tone: "emerald" },
-  { key: "inactifs", label: "Inactifs",     Icon: IconUserX,       tone: "red",     trendDown: true },
-  { key: "livres",   label: "Livres lus",   Icon: IconBook,        tone: "amber"   },
+  { key: "total",    label: "Utilisateurs", Icon: IconUsers,       tone: "green"  },
+  { key: "actifs",   label: "Actifs",       Icon: IconCheckCircle, tone: "gold"   },
+  { key: "inactifs", label: "Inactifs",     Icon: IconUserX,       tone: "red",   trendDown: true },
+  { key: "livres",   label: "Livres lus",   Icon: IconBook,        tone: "slate"  },
 ];
 
 // ─── Stat card ────────────────────────────────────────────────────────────────
@@ -130,13 +129,15 @@ interface StatCardProps {
 
 const StatCard = ({ label, value, trendText, progress, Icon, tone, trendDown }: StatCardProps) => {
   const t = TONES[tone];
+  const iconTextColor = tone === "gold" ? "text-[#0C3B2E]" : "text-white";
+
   return (
-    <div className={`relative overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-800 ${t.card} p-4 transition-shadow duration-200 hover:shadow-md`}>
+    <div className={`relative shadow-xl overflow-hidden rounded-lg border border-[#0C3B2E]/15 ${t.card} p-4 transition-shadow duration-200 hover:shadow-md`}>
       {/* Glow blob */}
       <div className={`absolute -top-5 -right-5 w-16 h-16 rounded-full opacity-10 ${t.glow}`} aria-hidden="true" />
 
       {/* Icon */}
-      <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-white ${t.icon}`}>
+      <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${t.icon} ${iconTextColor}`}>
         <Icon />
       </div>
 
@@ -153,7 +154,7 @@ const StatCard = ({ label, value, trendText, progress, Icon, tone, trendDown }: 
       </div>
 
       {/* Progress bar */}
-      <div className="mt-3 h-1.5 w-full bg-white/40 dark:bg-black/20 rounded-full overflow-hidden">
+      <div className="mt-3 h-1.5 w-full bg-white/60 rounded-full overflow-hidden">
         <div
           className={`h-full rounded-full transition-all duration-700 ${t.bar}`}
           style={{ width: `${Math.max(0, Math.min(100, progress))}%` }}
@@ -181,7 +182,7 @@ const StatusUtilisateurs = ({ users }: Props) => {
     [users]
   );
 
-  const pctActif  = users.length ? Math.round((actifCount  / users.length) * 100) : 0;
+  const pctActif   = users.length ? Math.round((actifCount   / users.length) * 100) : 0;
   const pctInactif = users.length ? Math.round((inactifCount / users.length) * 100) : 0;
 
   const values: Record<string, number> = {

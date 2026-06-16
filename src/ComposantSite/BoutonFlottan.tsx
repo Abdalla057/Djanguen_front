@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { FaArrowUp, FaPhone, FaEnvelope, FaWhatsapp } from 'react-icons/fa';
+import React from 'react';
 
 /* ================== CONST ================== */
 const COLOR_SCHEME = {

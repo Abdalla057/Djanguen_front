@@ -21,7 +21,7 @@ export function FilterBar({ filter, setFilter, search, setSearch }: FilterBarPro
           placeholder="Rechercher un livre…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full pl-9 pr-3 py-2 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition"
+          className="w-full pl-9 pr-3 py-2 text-sm border border-[#0c3b2e] rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition"
         />
       </div>
 
@@ -34,7 +34,7 @@ export function FilterBar({ filter, setFilter, search, setSearch }: FilterBarPro
             className={`px-3 py-1.5 text-sm rounded-lg border transition
               ${filter === f
                 ? "bg-gray-100 border-gray-300 text-gray-800 font-medium"
-                : "bg-white border-gray-200 text-gray-500 hover:bg-gray-50"
+                : "bg-[#bb8a52] border-gray-200 text-white hover:bg-[#629773] hover:border-[#629773] hover:text-white"
               }`}
           >
             {f}

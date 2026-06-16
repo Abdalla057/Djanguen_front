@@ -1,16 +1,17 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { UserProvider } from "./ComposantSite/userContext";
-import AdminLayout from "./Admin/ComposantTableau/adminLayout";
+import AdminLayout from "./Admin/ComposantTableau/gestionLivre/adminLayout";
+import UtilisateurLayout from "./Utilisateur/Tableau de bord/utilisateurLayout"
 import NotificationProvider from "./Notification/notificationContex";
 
 // Admin
 
-import IndexUI from "./Lecture/Index";
-import ListeModifier from "./Admin/ComposantLivre/ListeModifier/listemodifier";
-import AjouterAudio from "./Admin/ComposantLivre/AjouterAudio/Index";
-import AdminHome from "./Admin/ComposantTableau/AdminHome";
-import Bibliothèque from "./Admin/Bibliothéque/index";
-import Listelivres from "./Admin/ComposantLivre/gestionLivre/index";
+import IndexUI from "./Lecture/IndexLecture";
+import AdminHome from "./Admin/ComposantTableau/Tableau de bord/AdminHome";
+import UtilisateurAccueil from "./Utilisateur/Tableau de bord/utilisateuraccueil"
+import IndexBibliotheque from "./Admin/Bibliothéque/indexBibliotheque";
+import Listelivres from "./Admin/ComposantTableau/gestionLivre/index";
+import IndexLecture from "./Lecture/IndexLecture";
 
 // Site / Utilisateur
 import Site from "./site/principal";       // ← point d'entrée principal du site
@@ -18,9 +19,11 @@ import Connection from "./Connection/connection";
 import InscriptionPage from "./Connection/inscription";
 import Index from './historique/index';
 import ProfilPage from "./ComposantSite/Profil";
+import IndexAccueil from "./Utilisateur/pageAccueil/indexAccueil";
 
 import React from "react";
 import Footer from "./ComposantSite/footer";
+
 
 export default function App() {
   return (
@@ -30,7 +33,7 @@ export default function App() {
           <Routes>
 
             {/* ── Connexion / Inscription ── */}
-            <Route path="/"          element={<Connection />} />
+            <Route path="/"          element={<Site/>} />
             <Route path="/connection" element={<Connection />} />
             <Route path="/inscrire"  element={<InscriptionPage />} />
 
@@ -41,17 +44,28 @@ export default function App() {
             <Route path="/profil" element={<ProfilPage />} />
             <Route path="/lecture/historique/:userId" element={<Index />} />
             <Route path="/livre/:id/pages" element={<IndexUI />} />
+            
+            {/* ── Utilisateurs avec layout persistant ── */}
+             
+            <Route path="/utilisateur" element={<UtilisateurLayout />}>
+              <Route index element={<Navigate to="accueil" replace />} />
+              <Route path="accueil"              element={<UtilisateurAccueil />} />
+              <Route path="bibliotheque"         element={<IndexBibliotheque role="utilisateur" />} />
+              <Route path="historique"           element={<Index role="utilisateur" />} />
+              <Route path="livre/:id/pages"      element={<IndexLecture />} />  {/* ← ajoute */}
+              <Route path="accueil"      element={<IndexAccueil />} />  {/* ← ajoute */}
 
-            {/* ── Admin avec layout persistant ── */}
+            </Route>
+
+                          {/* Admin */}
             <Route path="/admin" element={<AdminLayout />}>
-              <Route index element={<Navigate to="home" replace />} /> 
-              <Route path="home"       element={<AdminHome />} />
-              <Route path="/admin/livres"     element={<Listelivres />} />
-              <Route path="bibliotheque" element={<Bibliothèque />} />
-              <Route path="historique" element={<Index />} />
-              <Route path="audio"      element={<AjouterAudio />} />
-              <Route path="affichage"  element={<ListeModifier />} />
-              <Route path="footer"  element={<Footer />} />
+              <Route index element={<Navigate to="home" replace />} />
+              <Route path="home"                 element={<AdminHome />} />
+              <Route path="livres"               element={<Listelivres />} />   {/* ← corrige le slash */}
+              <Route path="bibliotheque"         element={<IndexBibliotheque role="admin" />} />
+              <Route path="historique"           element={<Index role="admin" />} />
+              <Route path="footer"               element={<Footer />} />
+              <Route path="livre/:id/pages"      element={<IndexLecture />} />  {/* ← ajoute */}
             </Route>
 
           </Routes>

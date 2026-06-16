@@ -56,13 +56,13 @@ const GestionLivres = () => {
   };
 
   return (
-    <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+    <div className="bg-white rounded-lg border border-slate-100 overflow-hidden shadow">
 
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-red-50 flex items-center justify-center">
-            <BookOpen className="w-4 h-4 text-red-500" />
+          <div className="w-9 h-9 rounded-xl bg-[#ffBA00] flex items-center justify-center">
+            <BookOpen className="w-4 h-4 text-[#ffff]" />
           </div>
           <div>
             <h2 className="text-[15px] font-semibold text-slate-800"></h2>
@@ -75,7 +75,7 @@ const GestionLivres = () => {
         </div>
         <button
           onClick={() => setModalLivre("create")}
-          className="flex items-center gap-1.5 text-[13px] font-semibold text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-xl transition-all shadow-sm"
+          className="flex items-center gap-1.5 text-[13px] font-semibold text-black bg-white hover:bg-violet-300 px-4 py-2 rounded-xl transition-all shadow-sm"
         >
           <Plus className="w-3.5 h-3.5" /> Nouveau livre
         </button>

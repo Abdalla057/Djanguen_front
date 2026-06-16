@@ -42,7 +42,7 @@ export function SaveProgressionForm({ userId, onSave, onClose }: SaveProgression
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-2xl p-5 mb-5">
+    <div className="bg-violet-200 border border-gray-200 rounded-2xl p-5 mb-5">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <p className="text-sm font-medium text-gray-800">Sauvegarder la progression</p>
@@ -76,7 +76,7 @@ export function SaveProgressionForm({ userId, onSave, onClose }: SaveProgression
         className={`mt-4 w-full py-2.5 text-sm font-medium rounded-xl transition
           ${isValid
             ? "bg-teal-600 hover:bg-teal-700 text-white"
-            : "bg-gray-100 text-gray-400 cursor-not-allowed"
+            : "bg-violet-200 text-gray-400 cursor-not-allowed"
           }`}
       >
         {saving ? "Sauvegarde…" : "Sauvegarder →"}

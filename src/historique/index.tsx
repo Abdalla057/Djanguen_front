@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useUser } from "../ComposantSite/userContext"; // ← adapte
+import { useUser } from "../ComposantSite/userContext";
 import { useHistorique } from "./logique/useHistorique";
 import { StatsBar }            from "./composant/barreEtats";
 import { FilterBar }           from "./composant/barreDeFilttre";
@@ -9,7 +9,12 @@ import { Toast, EmptyState }   from "./composant/historiqueUI";
 import type { FilterType, RepriseInfo } from "./type/historique.types";
 import React from "react";
 
-function HistoriqueContent({ userId }: { userId: number }) {
+// ─── Prop role ───────────────────────────────────────
+interface Props {
+  role?: "utilisateur" | "admin";
+}
+
+function HistoriqueContent({ userId, role }: { userId: number; role: "utilisateur" | "admin" }) {
   const { historique, loading, toastMsg, deleteEntry, saveProgression, reprendre } =
     useHistorique(userId);
 
@@ -18,15 +23,11 @@ function HistoriqueContent({ userId }: { userId: number }) {
   const [search,   setSearch]   = useState("");
 
   const filtered = historique.filter((h) => {
-    const matchFilter =
-      filter === "Tous" ||
-      (filter === "En cours" && h.dernierePage > 0);
-
+    const matchFilter = filter === "Tous" || (filter === "En cours" && h.dernierePage > 0);
     const matchSearch =
       !search ||
       h.livre?.titre?.toLowerCase().includes(search.toLowerCase()) ||
       h.livre?.auteur?.toLowerCase().includes(search.toLowerCase());
-
     return matchFilter && matchSearch;
   });
 
@@ -37,23 +38,32 @@ function HistoriqueContent({ userId }: { userId: number }) {
       <div className="flex justify-between items-end mb-6">
         <div>
           <h1 className="text-xl font-semibold text-gray-900 flex items-center gap-2">
-            <i className="ti ti-history text-xl" aria-hidden="true" />
-            Historique de lecture
+            <i className="ti ti-history text-xl" aria-hidden="true"/>
+            {/* ← Titre différent selon le rôle */}
+            {role === "admin" ? "Historique des lectures" : "Historique de lecture"}
           </h1>
-          <p className="text-sm text-gray-400 mt-0.5">Retrouvez et reprenez vos lectures</p>
+          <p className="text-sm text-gray-400 mt-0.5">
+            {role === "admin"
+              ? "Consultez les lectures des utilisateurs"
+              : "Retrouvez et reprenez vos lectures"}
+          </p>
         </div>
-        <button
-          onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 hover:bg-gray-50 transition"
-        >
-          <i className={`ti ${showForm ? "ti-x" : "ti-plus"} text-sm`} aria-hidden="true" />
-          {showForm ? "Annuler" : "Sauvegarder"}
-        </button>
+
+        {/* ← Bouton sauvegarder uniquement pour l'utilisateur */}
+        {role === "utilisateur" && (
+          <button
+            onClick={() => setShowForm((v) => !v)}
+            className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-xl border border-gray-200 hover:bg-gray-50 transition"
+          >
+            <i className={`ti ${showForm ? "ti-x" : "ti-plus"} text-sm`} aria-hidden="true"/>
+            {showForm ? "Annuler" : "Sauvegarder"}
+          </button>
+        )}
       </div>
 
       <StatsBar historique={historique} />
 
-      {showForm && (
+      {showForm && role === "utilisateur" && (
         <SaveProgressionForm
           userId={userId}
           onSave={saveProgression}
@@ -65,7 +75,7 @@ function HistoriqueContent({ userId }: { userId: number }) {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-          <i className="ti ti-loader-2 text-4xl animate-spin mb-2 opacity-40" aria-hidden="true" />
+          <i className="ti ti-loader-2 text-4xl animate-spin mb-2 opacity-40" aria-hidden="true"/>
           <p className="text-sm">Chargement…</p>
         </div>
       ) : filtered.length === 0 ? (
@@ -86,17 +96,17 @@ function HistoriqueContent({ userId }: { userId: number }) {
   );
 }
 
-export default function HistoriqueApp() {
+export default function HistoriqueApp({ role = "utilisateur" }: Props) {
   const { profile } = useUser();
 
   if (!profile) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-        <i className="ti ti-alert-circle text-4xl mb-2 opacity-40" aria-hidden="true" />
+        <i className="ti ti-alert-circle text-4xl mb-2 opacity-40" aria-hidden="true"/>
         <p className="text-sm">Vous devez être connecté.</p>
       </div>
     );
   }
 
-  return <HistoriqueContent userId={Number(profile.id)} />;
+  return <HistoriqueContent userId={Number(profile.id)} role={role} />;
 }

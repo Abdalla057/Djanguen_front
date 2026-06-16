@@ -3,8 +3,7 @@
 export const API_URL = import.meta.env.VITE_API_URL as string;
 
 
-export const SF =
-  "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif";
+export const SF ="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', system-ui, sans-serif";
 
 
 

@@ -48,12 +48,12 @@ const CercleStatistique = ({ slices, centerValue, centerLabel }: Props) => {
   }, [slices]);
 
   return (
-    <div className="relative w-full h-44">
+    <div className="relative w-full h-52">
       <canvas ref={canvasRef} />
 
-      <div className="absolute inset-0 flex flex-col items-center justify-center ">
+      <div className="absolute inset-0 flex flex-col items-center justify-center shadow-lg ">
         <span className="text-xl font-bold">{centerValue}</span>
-        <span className="text-xs text-gray-400">{centerLabel}</span>
+        <span className="text-1xl text-[#0C3B2E]">{centerLabel}</span>
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import {BookOpen } from "lucide-react";
 const Header = () => {
 
   return (
-    <header className="bg-white border-b border-slate-100 sticky top-0 z-10">
+    <header className="bg-red-50 shadow-2xl border-b sticky top-0 z-10 border-white ">
 
       <div className="px-6 h-16 flex items-center justify-between">
 

@@ -3,8 +3,8 @@ import { X, BookOpen, AlertCircle, Loader2 } from "lucide-react";
 import type { LivreApi, CreateLivreDto, UpdateLivreDto } from "../type/GestionType";
 
 const CATEGORIES = [
-  "Roman", "Science", "Religion", "Histoire",
-  "Philosophie", "Informatique", "Art", "Autre",
+  "Figh", "Tafsir", "Hadihs", "Histoire",
+  
 ];
 
 export interface ModalLivreProps {

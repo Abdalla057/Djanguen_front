@@ -10,7 +10,6 @@ import { usePanneauDroit } from "./logique/usePanneau";
 import { useBarreStatistique } from "./logique/useBarreStatistique";
 
 const PanneauDroit = () => {
-
   const {
     allUsers,
     modifierUtilisateur,
@@ -26,17 +25,17 @@ const PanneauDroit = () => {
   } = useBarreStatistique({ users: allUsers });
 
   return (
-    <div className="p-6 md:p-8 space-y-8 bg-violet-60 dark:bg-[#1b1239] min-h-screen shadow-lg">
+    <div className="md:p-8 space-y-8 bg-white min-h-screen">
 
       {/* HEADER */}
-      <div className="rounded-2xl bg-violet-100 dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl">
+      <div className="bg-white">
         <SectionBienvenue />
       </div>
 
       {/* STATUS CARDS */}
-      <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl">
+      <div className="rounded-2xl bg-white  shadow-sm">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200">
+          <h2 className="text-lg font-semibold text-[#0C3B2E]">
             Statut des utilisateurs
           </h2>
         </div>
@@ -47,16 +46,15 @@ const PanneauDroit = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
         {/* BAR CHART */}
-        <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl hover:shadow-xl transition">
+        <div className="rounded-lg bg-white border border-[#0C3B2E]/20 p-6 shadow-sm hover:shadow-md transition">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-gray-700 dark:text-gray-200">
+            <h2 className="text-lg font-semibold text-[#0C3B2E]">
               Statistiques globales
             </h2>
-            <span className="text-xs text-white/80">
-              utilisateurs: {usersCount}
+            <span className="text-xs font-medium text-[#0C3B2E]/60">
+              {usersCount} utilisateurs
             </span>
           </div>
-
           <BarreStatistique
             labels={barLabels}
             values={barValues}
@@ -65,16 +63,15 @@ const PanneauDroit = () => {
         </div>
 
         {/* DONUT CHART */}
-        <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#1241a7] border border-gray-100 dark:border-white/10 p-6 shadow-sm hover:shadow-md transition">
+        <div className="rounded-lg bg-white border border-[#0C3B2E]/20 p-6 shadow-sm hover:shadow-md transition">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-gray-700 dark:text-gray-200">
+            <h2 className="text-lg font-semibold text-[#0C3B2E]">
               Répartition activité
             </h2>
-            <span className="text-1xl text-green-500">
-              Analyse temps réel
+            <span className="text-xs font-medium text-[#FFBA00] bg-[#FFBA00]/10 px-3 py-1 rounded-full">
+              Temps réel
             </span>
           </div>
-
           <CercleStatistique
             slices={donutSlices}
             centerValue={`${usersCount}`}
@@ -85,21 +82,16 @@ const PanneauDroit = () => {
       </div>
 
       {/* TABLE */}
-      <div className="rounded-2xl bg-[#fde8d8] dark:bg-[#111827] border border-gray-100 dark:border-white/10 p-6 shadow-2xl hover:shadow-2xl transition">
+      <div className="rounded-lg bg-white   transition">
         <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
+          <h2 className="text-lg font-semibold text-[#0C3B2E]">
             Gestion des utilisateurs
           </h2>
         </div>
-
         <TableauUtilisateurs
           users={allUsers}
-          onBloquer={(id) =>
-            modifierUtilisateur(id, { statut: "INACTIF" })
-          }
-          onActiver={(id) =>
-            modifierUtilisateur(id, { statut: "ACTIF" })
-          }
+          onBloquer={(id) => modifierUtilisateur(id, { statut: "INACTIF" })}
+          onActiver={(id) => modifierUtilisateur(id, { statut: "ACTIF" })}
           onSupprimer={supprimerUtilisateur}
         />
       </div>

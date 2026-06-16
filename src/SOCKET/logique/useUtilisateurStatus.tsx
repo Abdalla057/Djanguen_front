@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 
-import {
-  connectSocket,
-  onUtilisateurStatus,
-  disconnectSocket,
-} from "../composant/status.socket";
+import {connectSocket, onUtilisateurStatus, disconnectSocket} from "../composant/status.socket";
 
 export function useUtilisateurStatus(userId: number) {
   const [status, setStatus] =

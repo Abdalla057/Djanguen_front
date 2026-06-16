@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import React from 'react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 interface Livre {
   id: number;
   titre: string;
@@ -17,32 +19,15 @@ const LivreCarousel = () => {
   useEffect(() => {
     const fetchLivres = async () => {
       try {
-        // 🔑 Récupérer le token JWT depuis le localStorage
-        const token = localStorage.getItem('token');
-        if (!token) {
-          console.error('Token JWT absent');
-          return;
-        }
-        console.log('Token JWT:', token);
-
-        const res = await axios.get('http://localhost:3000/admin/livre', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        // ✅ Vérifier que res.data est un tableau
+        const res = await axios.get(`${API_URL}/admin/livre`);
         setLivres(Array.isArray(res.data) ? res.data : res.data.livres || []);
       } catch (err: unknown) {
         if (axios.isAxiosError(err)) {
-          console.error(
-            'Erreur lors du chargement des livres :',
-            err.response?.data || err.message,
-          );
+          console.error("Erreur livres :", err.response?.data || err.message);
         } else if (err instanceof Error) {
-          console.error('Erreur lors du chargement des livres :', err.message);
+          console.error("Erreur livres :", err.message);
         } else {
-          console.error('Erreur inconnue lors du chargement des livres');
+          console.error("Erreur inconnue");
         }
       }
     };
@@ -54,30 +39,49 @@ const LivreCarousel = () => {
     livres.length < 3 ? [...livres, ...livres, ...livres] : livres;
 
   return (
-    <div className="flex-1 max-w-xl w-full shadow-2xl shadow-pink-500 animate-fade-down">
-      <Swiper
-        modules={[Autoplay, Pagination]}
-        slidesPerView={1}
-        loop={displayedLivres.length > 2}
-        autoplay={{ delay: 3000 }}
-        pagination={{ clickable: true }}
-      >
-        {displayedLivres.map((livre) => (
-          <SwiperSlide key={livre.id}>
-            <div className="w-full h-[300px] flex items-center justify-center">
-              <img
-                src={
-                  livre.cover
-                    ? `http://localhost:3000/uploads/images/${livre.cover}`
-                    : '/placeholder.png'
-                }
-                alt={livre.titre}
-                className="h-full object-cover shadow-4xl border-4 border-b-blue-600 border-l-pink-500 border-r-blue-600 border-t-yellow-400 rounded-2xl"
-              />
-            </div>
-          </SwiperSlide>
-        ))}
-      </Swiper>
+    <div className="w-full rounded-3xl overflow-hidden border border-[#0C3B2E]/15 bg-[#0C3B2E]/[0.03]">
+
+      {/* Bande décorative supérieure */}
+      <div className="h-1 w-full bg-[#FFBA00]" />
+
+      <div className="p-4">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          slidesPerView={1}
+          loop={displayedLivres.length > 2}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          pagination={{
+            clickable: true,
+            bulletClass: "swiper-pagination-bullet !bg-[#0C3B2E]/30 !w-1.5 !h-1.5",
+            bulletActiveClass: "swiper-pagination-bullet-active !bg-[#FFBA00] !w-4 !rounded-full",
+          }}
+        >
+          {displayedLivres.map((livre, idx) => (
+            <SwiperSlide key={`${livre.id}-${idx}`}>
+              <div className="w-full h-[320px] flex items-center justify-center px-4 pb-8">
+                <img
+                  src={
+                    livre.cover
+                      ? `${API_URL}/uploads/images/${livre.cover}`
+                      : "/placeholder.png"
+                  }
+                  alt={livre.titre}
+                  className="h-full w-auto object-cover rounded-2xl shadow-lg border border-[#0C3B2E]/10"
+                />
+              </div>
+
+              {/* Titre du livre */}
+              {livre.titre && (
+                <div className="absolute bottom-8 left-0 right-0 text-center px-4">
+                  <span className="inline-block text-xs font-semibold text-[#0C3B2E] bg-white/90 px-3 py-1 rounded-full border border-[#0C3B2E]/10 shadow-sm">
+                    {livre.titre}
+                  </span>
+                </div>
+              )}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 };

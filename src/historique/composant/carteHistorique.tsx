@@ -45,16 +45,16 @@ export function HistoriqueCard({ item, onDelete, onReprendre }: HistoriqueCardPr
   };
 
   return (
-    <div className="bg-white border border-gray-100 rounded-2xl px-5 py-4 flex flex-col gap-3 hover:border-gray-300 transition-colors">
+    <div className="bg-[#FFFF] shadow-2xl border border-gray-100 rounded-2xl px-5 py-4 flex flex-col gap-3 hover:border-gray-300 transition-colors">
 
       {/* En-tête */}
       <div className="flex gap-3 items-start">
         <Avatar name={item.livre?.auteur ?? "?"} />
         <div className="flex-1 min-w-0">
-          <p className="text-[15px] font-medium text-gray-900 truncate">
+          <p className="text-[20px] font-bold text-black truncate">
             {item.livre?.titre ?? "Titre inconnu"}
           </p>
-          <p className="text-xs text-gray-400 mt-0.5">
+          <p className="text-bold text-black mt-0.5">
             {item.livre?.auteur ?? "Auteur inconnu"}
           </p>
         </div>
@@ -64,7 +64,7 @@ export function HistoriqueCard({ item, onDelete, onReprendre }: HistoriqueCardPr
       {/* Pages */}
       <div>
         <div className="flex justify-between mb-1">
-          <span className="text-xs text-gray-400">Pages lues</span>
+          <span className="text-xl text-gray-500">Pages lues</span>
           <span className="text-xs font-medium text-gray-700">Page {item.dernierePage}</span>
         </div>
         <ProgressBar value={item.dernierePage} total={100} color="teal" />
@@ -81,7 +81,7 @@ export function HistoriqueCard({ item, onDelete, onReprendre }: HistoriqueCardPr
 
       {/* Footer */}
       <div className="flex items-center justify-between pt-2 border-t border-gray-100">
-        <span className="text-xs text-gray-400 flex items-center gap-1">
+        <span className="text-xs text-gray-700 flex items-center gap-1">
           <i className="ti ti-clock text-xs" aria-hidden="true" />
           {formatDate(item.updatedAt)}
         </span>

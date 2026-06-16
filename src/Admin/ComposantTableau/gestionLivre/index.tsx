@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Header from "./composant/header";
 import GestionLivre from "./composant/gestionLivre";
 import TopLivre from "./composant/topLivre";
 import StatCard from "./component/StatusCard";
@@ -14,8 +13,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 font-sans">
-      <Header />
+    <div className="min-h-screen bg-white font-sans">
       <main className="px-8 py-8 max-w-[1200px] mx-auto">
         <div className="mb-7">
           <h1 className="text-[24px] font-bold text-slate-800">Dashboard</h1>
@@ -26,19 +24,15 @@ const Dashboard = () => {
             value={stats.totalLivres}
             title="Total Livres"
             icon={<BookOpen size={20} color="white" />}
-            iconBackgroundColor="bg-blue-400"
+            iconBackgroundColor="bg-[#ffBA00]"
           />
           <StatCard
             value={stats.livresAvecAudio}
             title="Livre avec audio"
             icon={<Book size={20} color="white" />}
-            iconBackgroundColor="bg-pink-400"
+            iconBackgroundColor="bg-[#0c3b2e]"
           />
-          <StatCard
-            value={4}
-            title="Nombre de livre"
-            icon={<Book size={20} color="white" />}
-          />
+          
         </div>
         <TopLivre />
         <GestionLivre />

@@ -102,8 +102,8 @@ const BarreStatistique = ({
 
   }, [labels, values, colors]);
 
-  return (
-    <div className="w-full h-52">
+  return ( 
+    <div className="w-full h-52 shadow-lg">
       <canvas ref={canvasRef} />
     </div>
   );

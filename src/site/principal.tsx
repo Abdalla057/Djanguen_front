@@ -5,6 +5,8 @@ import Propos from "../ComposantSite/propos";
 import Contact from "../ComposantSite/contact";
 import LesLivres from "../ComposantSite/leslivres";
 import BouttonFlottant from "../ComposantSite/BoutonFlottan";
+import StatSection from "../ComposantSite/statSection";
+import CategorieCarte from "../ComposantSite/categorieCarte";
 
 interface PrincipalProps {
   children?: ReactNode;  // Rendre children optionnel
@@ -26,7 +28,17 @@ const Principal: React.FC<PrincipalProps> = ({
   
   const headerComponent = useMemo(() => <Header />, []);
 
-  const proposComponent = useMemo(
+  const statSectionComponent = useMemo(
+    () => showPropos && <StatSection />,
+    [showPropos]
+  );
+
+
+   const categorieCarteComponent = useMemo(
+    () => showPropos && <CategorieCarte />,
+    [showPropos]
+  );
+    const proposComponent = useMemo(
     () => showPropos && <Propos />,
     [showPropos]
   );
@@ -58,11 +70,22 @@ const Principal: React.FC<PrincipalProps> = ({
         {headerComponent}
       </div>
 
+      {/* Sections de stat */}
+      <div className="w-full mt-10">
+        {statSectionComponent}
+      </div>
+
+     
+     {/* Sections de catégories */}
+      <div className="w-full mt-10">
+        {categorieCarteComponent}
+      </div>
       {/* Sections globales avant le contenu principal */}
       <div className="w-full mt-16">
         {proposComponent}
       </div>
-
+    
+     
       <div className="w-full mt-16">
         {leslivreComponent}
       </div>

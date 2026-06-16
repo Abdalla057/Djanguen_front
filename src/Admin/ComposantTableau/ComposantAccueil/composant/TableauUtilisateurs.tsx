@@ -18,18 +18,18 @@ interface Props {
 
 // ─── Avatar colors ────────────────────────────────────────────────────────────
 const AVATAR_COLORS = [
-  { bg: "bg-violet-100 dark:bg-violet-900/40", text: "text-violet-700 dark:text-violet-300" },
-  { bg: "bg-blue-100 dark:bg-blue-900/40",     text: "text-blue-700 dark:text-blue-300"   },
-  { bg: "bg-emerald-100 dark:bg-emerald-900/40", text: "text-emerald-700 dark:text-emerald-300" },
-  { bg: "bg-amber-100 dark:bg-amber-900/40",   text: "text-amber-700 dark:text-amber-300" },
-  { bg: "bg-pink-100 dark:bg-pink-900/40",     text: "text-pink-700 dark:text-pink-300"   },
+  { bg: "bg-violet-100", text: "text-violet-700" },
+  { bg: "bg-blue-100",   text: "text-blue-700"   },
+  { bg: "bg-emerald-100", text: "text-emerald-700" },
+  { bg: "bg-amber-100",  text: "text-amber-700"  },
+  { bg: "bg-pink-100",   text: "text-pink-700"   },
 ] as const;
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 const getInitials = (name: string) =>
   name.split(" ").map((n) => n[0]).join("").toUpperCase().slice(0, 2);
 
-// ─── Icons (inline SVG, zero deps) ───────────────────────────────────────────
+// ─── Icons ────────────────────────────────────────────────────────────────────
 const IconUsers = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -109,34 +109,34 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
   return (
     <>
       {/* ── CARD ── */}
-      <div className="rounded-2xl border border-slate-100 dark:border-slate-800 bg-violet-100 dark:bg-slate-900 shadow-sm overflow-hidden">
+      <div className="rounded-lg border border-[#0C3B2E]/20 bg-white shadow-sm overflow-hidden">
 
         {/* Header */}
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
-          className="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors text-left"
+          className="w-full flex items-center justify-between px-5 py-4 hover:bg-gray-50 transition-colors text-left"
           aria-expanded={open}
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-white flex items-center justify-center text-white dark:text-slate-900 flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-[#0C3B2E] flex items-center justify-center text-white flex-shrink-0">
               <IconUsers />
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+              <p className="text-sm font-semibold text-[#0C3B2E]">
                 Gestion des utilisateurs
               </p>
-              <p className="text-xs text-slate-400 dark:text-slate-500">
+              <p className="text-xs text-slate-400">
                 {users.length} utilisateur{users.length !== 1 ? "s" : ""}
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <span className="text-xs px-2.5 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-medium">
+            <span className="text-xs px-2.5 py-1 rounded-full bg-[#FFBA00]/15 text-[#0C3B2E] font-medium">
               {actifCount} actif{actifCount !== 1 ? "s" : ""}
             </span>
-            <span className="text-slate-400 dark:text-slate-500">
+            <span className="text-slate-400">
               <IconChevron open={open} />
             </span>
           </div>
@@ -144,15 +144,15 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
 
         {/* Body */}
         {open && (
-          <div className="border-t border-slate-100 dark:border-slate-800">
+          <div className="border-t border-[#0C3B2E]/10">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-slate-50 dark:bg-slate-800/50 text-left">
+                  <tr className="bg-gray-50 text-left">
                     {["Utilisateur", "Email", "Statut", "Livres lus", "Actions"].map((h) => (
                       <th
                         key={h}
-                        className={`px-4 py-3 text-xs font-medium text-slate-500 dark:text-slate-400 tracking-wide ${h === "Actions" ? "text-right" : ""}`}
+                        className={`px-4 py-3 text-xs font-medium text-slate-500 tracking-wide ${h === "Actions" ? "text-right" : ""}`}
                       >
                         {h}
                       </th>
@@ -163,7 +163,7 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
                 <tbody>
                   {users.length === 0 ? (
                     <tr>
-                      <td colSpan={5} className="px-4 py-10 text-center text-sm text-slate-400 dark:text-slate-500">
+                      <td colSpan={5} className="px-4 py-10 text-center text-sm text-slate-400">
                         Aucun utilisateur
                       </td>
                     </tr>
@@ -176,7 +176,7 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
                       return (
                         <tr
                           key={user.id}
-                          className="border-t border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors"
+                          className="border-t border-[#0C3B2E]/10 hover:bg-gray-50 transition-colors"
                         >
                           {/* Utilisateur */}
                           <td className="px-4 py-3">
@@ -184,14 +184,14 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
                               <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold flex-shrink-0 ${color.bg} ${color.text}`}>
                                 {getInitials(name)}
                               </div>
-                              <span className="text-sm font-medium text-slate-800 dark:text-slate-200 whitespace-nowrap">
+                              <span className="text-sm font-medium text-slate-800 whitespace-nowrap">
                                 {name}
                               </span>
                             </div>
                           </td>
 
                           {/* Email */}
-                          <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-400 whitespace-nowrap">
+                          <td className="px-4 py-3 text-sm text-slate-500 whitespace-nowrap">
                             {user.email}
                           </td>
 
@@ -199,8 +199,8 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
                           <td className="px-4 py-3">
                             <span className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-medium ${
                               actif
-                                ? "bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400"
-                                : "bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400"
+                                ? "bg-emerald-50 text-emerald-700"
+                                : "bg-red-50 text-red-600"
                             }`}>
                               <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${actif ? "bg-emerald-500" : "bg-red-400"}`} />
                               {user.statut}
@@ -208,7 +208,7 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
                           </td>
 
                           {/* Livres lus */}
-                          <td className="px-4 py-3 text-sm text-slate-500 dark:text-slate-400">
+                          <td className="px-4 py-3 text-sm text-slate-500">
                             {user.livresLus ?? 0}
                           </td>
 
@@ -218,14 +218,14 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
                               {actif ? (
                                 <button
                                   onClick={() => onBloquer(user.id)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/40 transition-colors font-medium"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-red-50 text-red-600 hover:bg-red-100 transition-colors font-medium"
                                 >
                                   <IconBan /> Bloquer
                                 </button>
                               ) : (
                                 <button
                                   onClick={() => onActiver(user.id)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors font-medium"
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors font-medium"
                                 >
                                   <IconCheck /> Activer
                                 </button>
@@ -233,7 +233,7 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
 
                               <button
                                 onClick={() => openDelete(user.id, name)}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 transition-colors font-medium"
+                                className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg bg-slate-100 text-slate-600 hover:bg-red-50 hover:text-red-600 transition-colors font-medium"
                               >
                                 <IconTrash /> Supprimer
                               </button>
@@ -248,7 +248,7 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
             </div>
 
             {/* Footer */}
-            <div className="px-4 py-3 text-xs text-slate-400 dark:text-slate-500 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/30">
+            <div className="px-4 py-3 text-xs text-slate-400 border-t border-[#0C3B2E]/10 bg-gray-50">
               {actifCount} actif{actifCount !== 1 ? "s" : ""} · {inactifCount} inactif{inactifCount !== 1 ? "s" : ""}
             </div>
           </div>
@@ -258,55 +258,55 @@ const TableauUtilisateurs = ({ users, onBloquer, onActiver, onSupprimer }: Props
       {/* ── MODAL ── */}
       {modal.open && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"
           onClick={(e) => e.target === e.currentTarget && closeDelete()}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
         >
-          <div className="w-[340px] bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-800 overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+          <div className="w-[340px] bg-white rounded-2xl shadow-xl border border-[#0C3B2E]/20 overflow-hidden">
 
             {/* Modal header */}
-            <div className="p-5 flex items-center gap-3 border-b border-slate-100 dark:border-slate-800">
-              <div className="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-900/30 flex items-center justify-center text-red-500 dark:text-red-400 flex-shrink-0">
+            <div className="p-5 flex items-center gap-3 border-b border-[#0C3B2E]/10">
+              <div className="w-10 h-10 rounded-xl bg-red-50 flex items-center justify-center text-red-500 flex-shrink-0">
                 <IconAlert />
               </div>
               <div>
-                <p id="modal-title" className="font-semibold text-sm text-slate-800 dark:text-slate-100">
+                <p id="modal-title" className="font-semibold text-sm text-[#0C3B2E]">
                   Confirmation
                 </p>
-                <p className="text-xs text-slate-400 dark:text-slate-500">Suppression utilisateur</p>
+                <p className="text-xs text-slate-400">Suppression utilisateur</p>
               </div>
               <button
                 onClick={closeDelete}
                 aria-label="Fermer"
-                className="ml-auto w-8 h-8 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 transition-colors"
+                className="ml-auto w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-slate-500 transition-colors"
               >
                 <IconX />
               </button>
             </div>
 
             {/* Modal body */}
-            <div className="p-5 text-sm text-slate-600 dark:text-slate-300">
+            <div className="p-5 text-sm text-slate-600">
               Supprimer{" "}
-              <span className="font-semibold text-slate-900 dark:text-slate-100">{modal.name}</span>{" "}
+              <span className="font-semibold text-[#0C3B2E]">{modal.name}</span>{" "}
               ?
-              <p className="text-xs text-red-500 dark:text-red-400 mt-2">
+              <p className="text-xs text-red-500 mt-2">
                 Cette action est irréversible.
               </p>
             </div>
 
             {/* Modal footer */}
-            <div className="flex justify-end gap-2 p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+            <div className="flex justify-end gap-2 p-4 bg-gray-50 border-t border-[#0C3B2E]/10">
               <button
                 onClick={closeDelete}
-                className="px-4 py-2 text-xs rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition-colors font-medium"
+                className="px-4 py-2 text-xs rounded-lg bg-white border border-[#0C3B2E]/20 hover:bg-gray-100 text-slate-700 transition-colors font-medium"
               >
                 Annuler
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 text-xs rounded-lg bg-red-600 hover:bg-red-700 text-white transition-colors font-medium"
+                className="px-4 py-2 text-xs rounded-lg bg-[#FFBA00] hover:bg-[#e6a800] text-[#0C3B2E] transition-colors font-medium"
               >
                 Supprimer
               </button>
